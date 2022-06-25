@@ -1,2 +1,2 @@
-# 1c_mp_CXY_Grupo_Z
-Repositorio para proyecto integrador de mil programadores
+# Grupo 4 - Facultad de Humanidades
+Repositorio para proyecto integrador de Mil Programadores
