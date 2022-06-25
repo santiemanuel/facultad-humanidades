@@ -1,9 +1,14 @@
 package test;
 
+import com.milprogramadores.model.Facultad;
+
 public class MainOutput {
 
 	public static void main(String[] args) {
-		System.out.println("Prueba Maven");
+		Facultad facultad = new Facultad();
+		facultad.setNombre("Humanidades");
+		
+		System.out.println(facultad);
 	}
 
 }
