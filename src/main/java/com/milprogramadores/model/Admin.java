@@ -5,7 +5,7 @@ public class Admin {
 	private Facultad Facultad;
 	
 	public Admin() {
-		
+
 	}
 	
 	public void agregarMateria(String nombre) {
