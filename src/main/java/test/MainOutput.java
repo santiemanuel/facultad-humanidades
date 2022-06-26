@@ -1,6 +1,5 @@
 package test;
 
-import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Facultad;
 
 public class MainOutput {
@@ -9,7 +8,7 @@ public class MainOutput {
 		Facultad facultad = new Facultad();
 	
 		facultad.setNombre("Humanidades");
-		facultad.agregarCarrera(new Carrera());
+		//facultad.agregarCarrera(new Carrera());
 		
 		System.out.println(facultad);
 	}

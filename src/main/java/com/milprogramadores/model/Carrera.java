@@ -12,18 +12,6 @@ public class Carrera {
 		setMaterias(new ArrayList<Materia>());
 	}
 
-	public void agregarMateria(Materia materia) {
-		
-	}
-	
-	public void modificarMateria(Materia materia) {
-		
-	}
-	
-	public void eliminarMateria(Materia materia) {
-		
-	}
-	
 	public String getNombre() {
 		return nombre;
 	}

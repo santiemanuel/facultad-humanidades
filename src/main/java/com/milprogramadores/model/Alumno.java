@@ -9,14 +9,6 @@ public class Alumno {
 		
 	}
 	
-	public void inscribir(MesaExamen mesa) {
-		
-	}
-	
-	public void cancelar(MesaExamen mesa) {
-		
-	}
-
 	public Facultad getFacultad() {
 		return facultad;
 	}

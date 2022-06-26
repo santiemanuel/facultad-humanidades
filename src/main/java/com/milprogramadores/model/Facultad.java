@@ -11,22 +11,6 @@ public class Facultad {
 	public Facultad() {
 		setCarreras(new ArrayList<Carrera>());
 	}
-	
-	public void agregarMateria(Materia materia) {
-		
-	}
-	
-	public void agregarCarrera(Carrera carrera) {
-		
-	}
-	
-	public void inscribir(Alumno alumno, Carrera carrera) {
-		
-	}
-	
-	public void modificar(Alumno alumno) {
-		
-	}
 
 	public String getNombre() {
 		return nombre;
