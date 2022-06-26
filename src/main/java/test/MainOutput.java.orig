@@ -7,8 +7,13 @@ public class MainOutput {
 
 	public static void main(String[] args) {
 		Facultad facultad = new Facultad();
+<<<<<<< HEAD
+		facultad.setNombre("Humanidades - 2022");
+=======
 		
 		facultad.setNombre("Humanidades");
+>>>>>>> origin/main
+		
 		facultad.agregarCarrera(new Carrera());
 		
 		System.out.println(facultad);
