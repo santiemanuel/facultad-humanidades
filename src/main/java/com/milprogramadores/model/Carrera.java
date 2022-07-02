@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Carrera {
 	
+	private Integer carrera_id;
 	private String nombre;
 	private List<Materia> materias;
 	
@@ -26,5 +27,13 @@ public class Carrera {
 
 	public void setMaterias(List<Materia> materias) {
 		this.materias = materias;
+	}
+
+	public Integer getCarrera_id() {
+		return carrera_id;
+	}
+
+	public void setCarrera_id(Integer carrera_id) {
+		this.carrera_id = carrera_id;
 	}
 }
