@@ -9,9 +9,9 @@ import com.milprogramadores.sql.DbConnection;
 public class CarreraDAO {
 
 	private final String INSERT_CARRERA = "INSERT INTO carreras VALUES ( default, ? )";
-	
+	private final String DELETE_CARRERA = "DELETE FROM carrera WHERE carrera_id = ?";
 	public CarreraDAO() {
-		
+		 
 	}
 	
 	public void agregarCarrera(Carrera carrera) {
@@ -28,6 +28,23 @@ public class CarreraDAO {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void eliminarCarrera(int id) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(DELETE_CARRERA);
+			
+			pstmt.setInt(1, id);
+			
+			pstmt.executeUpdate();
+			
+			conn.disconnect();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -8,6 +8,11 @@
     <groupId>mysql</groupId>
     <artifactId>mysql-connector-java</artifactId>
     <version>8.0.29</version>
-</dependency>
+	</dependency>
+    <dependency>
+      <groupId>com.lambdaworks</groupId>
+      <artifactId>scrypt</artifactId>
+      <version>1.4.0</version>
+    </dependency> 
   </dependencies>
 </project>
