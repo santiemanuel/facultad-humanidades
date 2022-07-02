@@ -31,7 +31,20 @@ public class CarreraDAO {
 	}
 	
 	public void eliminarCarrera(int id) {
+		DbConnection conn = new DbConnection();
 		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(DELETE_CARRERA);
+			
+			pstmt.setInt(1, id);
+			
+			pstmt.executeUpdate();
+			
+			conn.disconnect();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
