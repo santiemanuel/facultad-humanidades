@@ -10,6 +10,10 @@ public class CarreraDAO {
 
 	private final String INSERT_CARRERA = "INSERT INTO carreras VALUES ( default, ? )";
 	
+	public CarreraDAO() {
+		
+	}
+	
 	public void agregarCarrera(Carrera carrera) {
 		DbConnection conn = new DbConnection();
 		
