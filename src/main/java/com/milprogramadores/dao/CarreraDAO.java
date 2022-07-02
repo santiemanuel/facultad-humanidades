@@ -9,9 +9,9 @@ import com.milprogramadores.sql.DbConnection;
 public class CarreraDAO {
 
 	private final String INSERT_CARRERA = "INSERT INTO carreras VALUES ( default, ? )";
-	
+	private final String DELETE_CARRERA = "DELETE FROM carrera WHERE carrera_id = ?";
 	public CarreraDAO() {
-		
+		 
 	}
 	
 	public void agregarCarrera(Carrera carrera) {
@@ -27,6 +27,10 @@ public class CarreraDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public void eliminarCarrera(int id) {
 		
 	}
 	
