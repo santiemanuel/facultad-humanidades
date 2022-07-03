@@ -13,38 +13,38 @@ public class MateriaDAO {
 	
 
 		private final String INSERT_MATERIA = "INSERT INTO materias VALUES ( default, ? )";
-		private final String DELETE_MATERIA = "DELETE FROM materias WHERE carrera_id = ?";
+		private final String DELETE_MATERIA = "DELETE FROM materias WHERE materia_id = ?";
 		private final String UPDATE_MATERIA = "UPDATE materias SET materia_nombre = ?";
 		private final String GET_ONE_MATERIA = "SELECT * FROM materias WHERE materia_id = ?";
 		private final String GET_ALL_MATERIA = "SELECT * FROM materias";
-		private final String GET_MATERIA_MATERIA = "SELECT * " +
-													"FROM materias m " +
+		private final String GET_CARRERAS_MATERIA = "SELECT * " +
+													"FROM carreras c " +
 													"INNER JOIN materiasxcarreras mxc " +
-													"ON m.materia_id = mxc.materia_id " +
-													"INNER JOIN carreras c " +
 													"ON c.carrera_id = mxc.carrera_id " +
-													"WHERE c.carrera_nombre = ?";
+													"INNER JOIN materias m " +
+													"ON m.materia_id = mxc.materia_id " +
+													"WHERE m.materia_nombre = ?";
 		
 		public MateriaDAO() {
 			 
 		}
 		
-		public ArrayList<Materia> materiasDeMateria(Materia materia){
-			ArrayList<Materia> materias = new ArrayList<Materia>();
+		public ArrayList<Carrera> carrerasDeMateria(Materia materia){
+			ArrayList<Carrera> carreras = new ArrayList<Carrera>();
 			
 			DbConnection conn = new DbConnection();
 			
 			try {
-				PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_MATERIA_MATERIA);
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_CARRERAS_MATERIA);
 				pstmt.setString(1, materia.getNombre());
 				pstmt.execute();
 				ResultSet rs = pstmt.getResultSet();
 				
 				while(rs.next()) {
-					Materia carrera = new Materia();
-					materia.setMateria_id(rs.getInt("materia_id"));
-					materia.setNombre(rs.getString("materia_nombre"));
-					materias.add(materia);
+					Carrera carrera = new Carrera();
+					carrera.setCarrera_id(rs.getInt("carrera_id"));
+					carrera.setNombre(rs.getString("carrera_nombre"));
+					carreras.add(carrera);
 				}
 				rs.close();
 				pstmt.close();
@@ -53,7 +53,7 @@ public class MateriaDAO {
 				e.printStackTrace();
 			}
 			
-			return materias;
+			return carreras;
 		}
 		
 		public void agregarMateria(Materia materia) {
@@ -89,8 +89,7 @@ public class MateriaDAO {
 		
 		public Materia obtenerMateria(int id) {
 			DbConnection conn = new DbConnection();
-			
-			
+				
 			try {
 				PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ONE_MATERIA);
 				pstmt.setInt(1, id);
@@ -114,7 +113,7 @@ public class MateriaDAO {
 			return null;
 		}
 		
-		public ArrayList<Materia> listarMateria(){
+		public ArrayList<Materia> listarMaterias(){
 			ArrayList<Materia> materias = new ArrayList<Materia>();
 			
 			DbConnection conn = new DbConnection();
@@ -146,9 +145,9 @@ public class MateriaDAO {
 			
 			try {
 				PreparedStatement pstmt = conn.getConnection().prepareStatement(DELETE_MATERIA);
-				pstmt.setInt(1, id);	
-				pstmt.executeUpdate();		
-				conn.disconnect();		
+				pstmt.setInt(1, id);
+				pstmt.executeUpdate();
+				conn.disconnect();
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}
