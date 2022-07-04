@@ -9,27 +9,33 @@ import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Materia;
 import com.milprogramadores.model.MesaExamen;
 
-public class MainMesaExamenInsert {
+public class MainDAOExamenActualizar {
 
 	public static void main(String[] args) {
+		
+		MesaExamen mesa = new MesaExamen();
 		
 		MateriaDAO daoM = new MateriaDAO();
 		CarreraDAO daoC = new CarreraDAO();
 		ExamenDAO daoEx = new ExamenDAO();
 		
+		mesa = daoEx.obtenerMesaExamen(2);
+		
+		//datos nuevos
 		Materia materia = new Materia();
-		materia = daoM.obtenerMateria(95);
+		materia = daoM.obtenerMateria(40);
 		
 		Carrera carrera = new Carrera();
-		carrera = daoC.obtenerCarrera(1);
+		carrera = daoC.obtenerCarrera(3);
 		
-		LocalDate fecha = LocalDate.of(2022, 7, 7);
+		LocalDate fecha = LocalDate.of(2022, 10, 7);
 		
-		MesaExamen mesa = new MesaExamen();
 		mesa.setFecha(fecha);
 		
-		daoEx.agregarMesaExamen(mesa, materia, carrera);
+		daoEx.actualizarMesaExamen(mesa, materia, carrera);
 		
+		
+
 	}
 
 }
