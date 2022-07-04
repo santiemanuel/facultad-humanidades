@@ -13,7 +13,7 @@ public class AlumnoDAO {
 
 	private final String INSERT_ALUMNO = "INSERT INTO alumnos VALUES ( default, ?, ?, ?, ? )";
 	private final String DELETE_ALUMNO = "DELETE FROM alumnos WHERE alumno_id = ?";
-	private final String UPDATE_ALUMNO = "UPDATE alumnos SET alumno_nombre = ?, alumno_apellido = ? WHERE alumno_id = ?";
+	private final String UPDATE_ALUMNO = "UPDATE alumnos SET alumno_lu = ?, alumno_nombre = ?, alumno_apellido = ? WHERE alumno_id = ?";
 	private final String GET_ONE_ALUMNO = "SELECT * FROM alumnos WHERE alumno_id = ?";
 	private final String GET_ALL_ALUMNO = "SELECT * FROM alumnos";
 		
@@ -67,9 +67,10 @@ public class AlumnoDAO {
 		try {
 			PreparedStatement pstmt = conn.getConnection().prepareStatement(UPDATE_ALUMNO);
 			
-			pstmt.setString(1, alumno.getAlumno_nombre());
-			pstmt.setString(2, alumno.getAlumno_apellido());
-			pstmt.setInt(3, alumno.getAlumno_id());
+			pstmt.setInt(1, alumno.getAlumno_lu());
+			pstmt.setString(2, alumno.getAlumno_nombre());
+			pstmt.setString(3, alumno.getAlumno_apellido());
+			pstmt.setInt(4, alumno.getAlumno_id());
 			
 			pstmt.executeUpdate();
 			pstmt.close();

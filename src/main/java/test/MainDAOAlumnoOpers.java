@@ -16,7 +16,7 @@ public class MainDAOAlumnoOpers {
 		
 		alumno = dao.obtenerAlumno(5);
 		
-		alumno.setAlumno_nombre("Aldo");
+		alumno.setAlumno_lu(4545);
 		
 		dao.actualizarAlumno(alumno);
 		
