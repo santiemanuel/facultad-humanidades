@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.milprogramadores.model.Alumno;
+import com.milprogramadores.model.Carrera;
+import com.milprogramadores.model.Materia;
 import com.milprogramadores.sql.DbConnection;
 
 
@@ -16,9 +18,52 @@ public class AlumnoDAO {
 	private final String UPDATE_ALUMNO = "UPDATE alumnos SET alumno_lu = ?, alumno_nombre = ?, alumno_apellido = ? WHERE alumno_id = ?";
 	private final String GET_ONE_ALUMNO = "SELECT * FROM alumnos WHERE alumno_id = ?";
 	private final String GET_ALL_ALUMNO = "SELECT * FROM alumnos";
+	
+	private final String INSERT_AXC = "INSERT INTO alumnosxcarreras (alumno_id, carrera_id) ";
+	private final String INSERT_DETMAT = "INSERT INTO detallesmaterias (alumno_id, materia_id) ";
+	private final String CARRERA_ID = "SELECT carrera_id from carreras c WHERE c.carrera_nombre = ?";
+	private final String MATERIA_ID = "SELECT materia_id from materias c WHERE c.materia_nombre = ?";
+	private final String CURSAR_CARRERA = INSERT_AXC + "VALUES (( ? " + "), ( " + CARRERA_ID  + "))";
+	private final String CURSAR_MATERIA = INSERT_DETMAT + "VALUES (( ? " + "), ( " + MATERIA_ID + "))";
+	private final String INSCRIBIR_EXAMEN = "";
+	private final String CANCELAR_EXAMEN = "";
+	private final String RENDIR_EXAMEN = "";
+	private final String OBTENER_HISTORIAL = "";
 		
 	public AlumnoDAO() {
 		 
+	}
+	
+	public void inscribirCarrera(Alumno alumno, Carrera carrera) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(CURSAR_CARRERA);
+			pstmt.setInt(1, alumno.getAlumno_id());
+			pstmt.setString(2, carrera.getNombre());
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void inscribirMateria(Alumno alumno, Materia materia) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(CURSAR_MATERIA);
+			pstmt.setInt(1, alumno.getAlumno_id());
+			pstmt.setString(2, materia.getNombre());
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void agregarAlumno(Alumno alumno) {
