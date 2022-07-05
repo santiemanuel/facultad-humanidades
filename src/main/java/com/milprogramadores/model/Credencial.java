@@ -37,6 +37,10 @@ public class Credencial {
 	   this.pass_algo = "scrypt";
    }
    
+   public void setHash(String pass) {
+	      this.salt_and_hash = pass;
+   }
+   
    public boolean checkPassword(String pass) {
 	   return SCryptUtil.check(pass, salt_and_hash);
    }

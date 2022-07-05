@@ -11,13 +11,12 @@ import com.milprogramadores.model.Usuario;
 import com.milprogramadores.sql.DbConnection;
 
 
-
  public class UsuarioDAO {
 
    private final String INSERT_USUARIO  = "INSERT INTO usuarios VALUES ( default, ?, ?)";
    private final String DELETE_USUARIO  = "DELETE FROM usuarios WHERE id_usuario = ?"; 
    private final String UPDATE_USUARIO  = "UPDATE usuarios SET email_usuario = ?, rol_admin = ? WHERE id_usuario = ?";
-   private final String GET_ONE_USUARIO = "SELECT * FROM usuarios WHERE usuario_id = ?";
+   private final String GET_ONE_USUARIO = "SELECT * FROM usuarios WHERE id_usuario = ?";
    private final String GET_ALL_USUARIO = "SELECT * FROM usuarios";  
 	
 		
@@ -96,13 +95,12 @@ import com.milprogramadores.sql.DbConnection;
 	  
 	} catch (SQLException e) {
 		e.printStackTrace();
-	}
-		
+	}		
 	return usuarios;	
 				
    }
-  
-    public Usuario obtenerUsuario(int id) {
+   
+   public Usuario obtenerUsuario(int id) {
     	DbConnection conn = new DbConnection();
     	
     	try {
