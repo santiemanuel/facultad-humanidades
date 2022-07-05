@@ -1,23 +1,39 @@
 package com.milprogramadores.sql;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DbConnection {
 
-		static String DRIVER = "com.mysql.cj.jdbc.Driver";	
-		static String DB = "universidad";
-		static String LOGIN = "root";
-		static String PASSWORD = "mysqlJava2022!";
-		
-		static String URL = "jdbc:mysql://localhost/" + DB;
-		
 		Connection conn = null;
 		
 		public DbConnection() {
+			
+			Properties prop = new Properties();
+			
+			String propFile = new String("JBDCConnection.properties");
+			
 			try {
-				conn = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+				FileReader reader = new FileReader(propFile);
+				prop.load(reader);
+			
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			String dbConnUrl = prop.getProperty("db.conn.url");
+			String dbUser = prop.getProperty("db.username");
+			String dbPassword = prop.getProperty("db.password");
+			
+			try {
+				conn = DriverManager.getConnection(dbConnUrl, dbUser, dbPassword);
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
