@@ -4,19 +4,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-
 import com.milprogramadores.model.Credencial;
 import com.milprogramadores.model.Usuario;
 import com.milprogramadores.sql.DbConnection;
 
 
-
-
 public class CredencialDAO {
  
 	private final String USUARIO_ID = "SELECT id_usuario FROM usuarios WHERE usuarios.email_usuario = ?";
-	private final String INSERT_CREDENCIAL = "INSERT INTO credenciales VALUES (default, ?, ? ,( "+ USUARIO_ID +" ))";
+	private final String INSERT_CREDENCIAL = "INSERT INTO credenciales VALUES (default, ?, ?, ( "+ USUARIO_ID +" ))";
 	private final String DELETE_CREDENCIAL = "DELETE FROM credenciales WHERE usuario_id = ?";
 	private final String UPDATE_CREDENCIAL = "UPDATE credenciales SET salt_and_hash = ?, pass_algo = ? WHERE id_usuario = ?";
 	private final String GET_ONE_CREDENCIAL = "SELECT * FROM credenciales WHERE credencial_id = ?";
@@ -32,7 +28,6 @@ public class CredencialDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			
 			PreparedStatement pstmt = conn.getConnection().prepareStatement(INSERT_CREDENCIAL);
 			
 			pstmt.setString(1, credencial.getSalt_and_hash());
@@ -94,26 +89,23 @@ public class CredencialDAO {
 			ResultSet rs = pstmt.getResultSet();
 			
 			while(rs.next()) {
-			 Credencial credencial = new Credencial();
+				Credencial credencial = new Credencial();
 			 
-			 credencial.setId_credencial(rs.getInt("id_credencial"));
-			 credencial.setSalt_and_hash(rs.getString("salt_and_hash_id"));
-			 credencial.setPass_algo(rs.getString("pass_algo"));
-			 credencial.setId_usuario(rs.getInt("id_usuario"));
-			 credenciales.add(credencial);
-				
-				
-		}
-		rs.close();
-		pstmt.close();
-		conn.disconnect();
+				credencial.setId_credencial(rs.getInt("id_credencial"));
+				credencial.setSalt_and_hash(rs.getString("salt_and_hash_id"));
+				credencial.setPass_algo(rs.getString("pass_algo"));
+				credencial.setId_usuario(rs.getInt("id_usuario"));
+				credenciales.add(credencial);
+			}
+			rs.close();
+			pstmt.close();
+			conn.disconnect();
 		
-		} catch (SQLException e) {
-		  e.printStackTrace();	
+		} catch(SQLException e) {
+			e.printStackTrace();	
 		}
-		 return credenciales;	
-			
-		}
+		return credenciales;		
+	}
 	
 	public Credencial obtenerCredencial(int id) {
 		DbConnection conn = new DbConnection();
@@ -128,25 +120,18 @@ public class CredencialDAO {
 			if(rs.next()) {
 				Credencial credencial = new Credencial();
 				
-				 credencial.setId_credencial(rs.getInt("id_credencial"));
-				 credencial.setSalt_and_hash(rs.getString("salt_and_hash_id"));
-				 credencial.setPass_algo(rs.getString("pass_algo"));
-				 credencial.setId_usuario(rs.getInt("id_usuario"));
+				credencial.setId_credencial(rs.getInt("id_credencial"));
+				credencial.setSalt_and_hash(rs.getString("salt_and_hash_id"));
+				credencial.setPass_algo(rs.getString("pass_algo"));
+				credencial.setId_usuario(rs.getInt("id_usuario"));
 				return credencial;
 			}
-			
-		rs.close();
-		pstmt.close();
-		conn.disconnect();		
-	}catch(SQLException e) {
+			rs.close();
+			pstmt.close();
+			conn.disconnect();		
+		} catch(SQLException e) {
 		e.printStackTrace();
+		}
+		return null;	
 	}
-	return null;	
-	
-	}
-		
-	
 }
-	
-	
-	
