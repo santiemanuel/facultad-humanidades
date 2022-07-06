@@ -1,12 +1,13 @@
 package com.milprogramadores.model;
 
-import java.time.LocalDate;
-
 public class Examen {
 	
+	private Integer examen_id;
 	private String mesa;
 	private Byte nota;
-	private LocalDate fecha;
+	private Integer mesa_examen_id;
+	private Integer alumno_id;
+	
 	private Boolean ausente;
 	
 	public Examen() {
@@ -31,19 +32,35 @@ public class Examen {
 			setAusente(true);
 	}
 
-	public LocalDate getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
-
 	public Boolean getAusente() {
 		return ausente;
 	}
 
 	public void setAusente(Boolean ausente) {
 		this.ausente = ausente;
+	}
+
+	public Integer getExamen_id() {
+		return examen_id;
+	}
+
+	public void setExamen_id(Integer examen_id) {
+		this.examen_id = examen_id;
+	}
+
+	public Integer getMesa_examen_id() {
+		return mesa_examen_id;
+	}
+
+	public void setMesa_examen_id(Integer mesa_examen_id) {
+		this.mesa_examen_id = mesa_examen_id;
+	}
+
+	public Integer getAlumno_id() {
+		return alumno_id;
+	}
+
+	public void setAlumno_id(Integer alumno_id) {
+		this.alumno_id = alumno_id;
 	}
 }
