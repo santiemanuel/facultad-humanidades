@@ -73,6 +73,7 @@ public class WelcomeScreen extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
+				dispose();
 				LoginDialog dialog = new LoginDialog();
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setVisible(true);

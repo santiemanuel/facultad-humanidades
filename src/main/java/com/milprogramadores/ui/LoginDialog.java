@@ -95,7 +95,6 @@ public class LoginDialog extends JDialog {
 					JOptionPane.showMessageDialog(panel, "Los campos no puede estar vacíos", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				 
-				System.out.println(correo + " " + pass);
 				Usuario usuario = dao.getUsuarioDAO().usuarioPorCorreo(correo);
 				
 				if (usuario == null)
@@ -113,7 +112,17 @@ public class LoginDialog extends JDialog {
 				}
 			}
 			
-		}); 
+		});
+		
+		cancelButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				WelcomeScreen screen = new WelcomeScreen();
+				screen.setVisible(true);
+			}
+			
+		});
 		setLocationRelativeTo(null);
 	}
 
