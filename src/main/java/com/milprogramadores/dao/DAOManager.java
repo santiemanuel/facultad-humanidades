@@ -37,7 +37,7 @@ public class DAOManager {
 		return examenes;
 	}
 
-	public MateriaDAO getMateriDAO() {
+	public MateriaDAO getMateriaDAO() {
 		if (materias == null)
 			materias = new MateriaDAO();
 		return materias;

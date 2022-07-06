@@ -40,7 +40,7 @@ public class WelcomeScreen extends JFrame {
 
 	public WelcomeScreen() {
 		setTitle("Sistema de la Facultad");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 440);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,7 +75,6 @@ public class WelcomeScreen extends JFrame {
 
 				dispose();
 				LoginDialog dialog = new LoginDialog();
-				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setVisible(true);
 			}	
 		});

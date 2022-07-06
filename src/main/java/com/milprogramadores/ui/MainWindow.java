@@ -2,6 +2,8 @@ package com.milprogramadores.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -83,6 +85,16 @@ public class MainWindow extends JFrame {
 		
 		JButton btnCareers = new JButton("Mis Carreras");
 		panel_1.add(btnCareers, "4, 12");
+		
+		btnCareers.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				CareerScreen screen = new CareerScreen();
+				screen.setVisible(true);
+			}
+			
+		});
+		
 		
 		JButton btnReports = new JButton("Reportes");
 		panel_1.add(btnReports, "8, 12");

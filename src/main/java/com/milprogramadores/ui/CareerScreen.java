@@ -2,6 +2,8 @@ package com.milprogramadores.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -11,19 +13,23 @@ import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import com.milprogramadores.model.Carrera;
+import com.milprogramadores.tablemodel.CarreraTableModel;
 
 public class CareerScreen extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private CarreraTableModel tablemodel;
 
-	/**
-	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -42,8 +48,8 @@ public class CareerScreen extends JFrame {
 	 */
 	public CareerScreen() {
 		setTitle("Carreras");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 520, 400);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 650, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -71,14 +77,42 @@ public class CareerScreen extends JFrame {
 		JPanel panel_Flow_Career = new JPanel();
 		panel_Oper_Career.add(panel_Flow_Career, BorderLayout.WEST);
 		
-		JButton btnAddCareer = new JButton("Inscripci\u00F3n a Carrerra");
+		JButton btnAddCareer = new JButton("Inscripci\u00F3n a Carrera");
 		panel_Flow_Career.add(btnAddCareer);
 		
 		JButton btnDetCareer = new JButton("Ver detalles Carrera");
 		panel_Flow_Career.add(btnDetCareer);
 		
+		btnDetCareer.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+				JPanel panel = new JPanel();
+				int fila = table.getSelectedRow();
+				
+				if (fila < 0) {
+					JOptionPane.showMessageDialog(panel, "Debe seleccionar una carrera", "Error", JOptionPane.ERROR_MESSAGE);
+				};
+				
+				
+				Carrera carrera = (Carrera) tablemodel.getValueAt(fila, CarreraTableModel.OBJECT_COL);
+				
+				SubjectScreen screen = new SubjectScreen(carrera);
+				screen.setVisible(true);
+			}
+			
+		});
+		
 		JButton btnMain = new JButton("Inicio");
 		panel_Bottom.add(btnMain, BorderLayout.EAST);
+		
+		btnMain.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		
 		LocalDate today = LocalDate.of(2022, 12, 6);
 		
@@ -91,7 +125,15 @@ public class CareerScreen extends JFrame {
 		lblDate.setText("Fecha: " + format);
 		
 		table = new JTable();
-		contentPane.add(table, BorderLayout.CENTER);
+		tablemodel = new CarreraTableModel();
+		tablemodel.updateModel();
+		table.setModel(tablemodel);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(table);
+		
+		contentPane.add(scrollPane, BorderLayout.CENTER);
+		
 		
 		setLocationRelativeTo(null);
 	}
