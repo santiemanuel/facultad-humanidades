@@ -86,15 +86,16 @@ public class CareerScreen extends JFrame {
 		btnDetCareer.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				
 				
 				JPanel panel = new JPanel();
 				int fila = table.getSelectedRow();
 				
 				if (fila < 0) {
 					JOptionPane.showMessageDialog(panel, "Debe seleccionar una carrera", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
 				};
-				
+				dispose();
 				
 				Carrera carrera = (Carrera) tablemodel.getValueAt(fila, CarreraTableModel.OBJECT_COL);
 				
