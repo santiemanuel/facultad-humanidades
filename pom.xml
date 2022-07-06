@@ -13,6 +13,16 @@
       <groupId>com.lambdaworks</groupId>
       <artifactId>scrypt</artifactId>
       <version>1.4.0</version>
-    </dependency> 
+    </dependency>
+    <dependency>
+    	<groupId>com.jgoodies</groupId>
+   		<artifactId>jgoodies-forms</artifactId>
+    	<version>1.8.0</version>
+	</dependency>
+	<dependency>
+    	<groupId>com.miglayout</groupId>
+    	<artifactId>miglayout-swing</artifactId>
+    	<version>5.0</version>
+	</dependency>
   </dependencies>
 </project>

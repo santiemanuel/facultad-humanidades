@@ -15,12 +15,41 @@ public class CredencialDAO {
 	private final String INSERT_CREDENCIAL = "INSERT INTO credenciales VALUES (default, ?, ?, ( "+ USUARIO_ID +" ))";
 	private final String DELETE_CREDENCIAL = "DELETE FROM credenciales WHERE id_usuario = ?";
 	private final String UPDATE_CREDENCIAL = "UPDATE credenciales SET salt_and_hash = ?, pass_algo = ? WHERE id_usuario = ?";
+	private final String GET_CREDENCIAL_USUARIO = "SELECT * FROM credenciales WHERE id_usuario = ?";
 	private final String GET_ONE_CREDENCIAL = "SELECT * FROM credenciales WHERE id_credencial = ?";
 	private final String GET_ALL_CREDENCIAL = "SELECT * FROM credenciales";
 
 	
 	public CredencialDAO() {
 	
+	}
+	
+	public Credencial credencialUsuario(int id) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_CREDENCIAL_USUARIO);
+			pstmt.setInt(1, id);
+			
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next()) {
+				Credencial credencial = new Credencial();
+				
+				credencial.setId_credencial(rs.getInt("id_credencial"));
+				credencial.setHash(rs.getString("salt_and_hash"));
+				credencial.setPass_algo(rs.getString("pass_algo"));
+				credencial.setId_usuario(rs.getInt("id_usuario"));
+				return credencial;
+			}
+			rs.close();
+			pstmt.close();
+			conn.disconnect();		
+		} catch(SQLException e) {
+		e.printStackTrace();
+		}
+		return null;	
 	}
 	
 	public void agregarCredencial(Credencial credencial, Usuario usuario) {

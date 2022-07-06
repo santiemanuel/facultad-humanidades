@@ -17,11 +17,41 @@ import com.milprogramadores.sql.DbConnection;
    private final String DELETE_USUARIO  = "DELETE FROM usuarios WHERE id_usuario = ?"; 
    private final String UPDATE_USUARIO  = "UPDATE usuarios SET email_usuario = ?, rol_admin = ? WHERE id_usuario = ?";
    private final String GET_ONE_USUARIO = "SELECT * FROM usuarios WHERE id_usuario = ?";
+   private final String GET_ONE_USUARIO_EMAIL = "SELECT * FROM usuarios WHERE email_usuario = ?";
    private final String GET_ALL_USUARIO = "SELECT * FROM usuarios";  
 	
 		
     public UsuarioDAO(){
  
+    }
+    
+    public Usuario usuarioPorCorreo(String correo) {
+    	
+    	DbConnection conn = new DbConnection();
+    	try {
+    		PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ONE_USUARIO_EMAIL);
+    
+    		pstmt.setString(1, correo);
+    		pstmt.execute();
+    		
+    		ResultSet rs = pstmt.getResultSet();
+    		
+    		if(rs.next()) {
+    			Usuario usuario = new Usuario();
+    			
+    			usuario.setId_usuario(rs.getInt("id_usuario"));
+    			usuario.setEmail_usuario(rs.getString("email_usuario"));
+    			usuario.setRol_admin(rs.getBoolean("rol_admin"));
+    			return usuario;
+    		}
+    		
+    		pstmt.close();
+    		conn.disconnect();
+    	} catch (SQLException e) {
+    		e.printStackTrace();	
+    	}
+    	
+    	return null;
     }
    
     public void agregarUsuario(Usuario usuario) {
