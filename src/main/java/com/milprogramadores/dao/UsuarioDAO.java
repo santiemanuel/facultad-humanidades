@@ -9,18 +9,11 @@ import java.util.ArrayList;
 import com.milprogramadores.model.Usuario;
 
 import com.milprogramadores.sql.DbConnection;
+import com.milprogramadores.sql.SqlQueries;
 
 
  public class UsuarioDAO {
 
-   private final String INSERT_USUARIO  = "INSERT INTO usuarios VALUES ( default, ?, ?)";
-   private final String DELETE_USUARIO  = "DELETE FROM usuarios WHERE id_usuario = ?"; 
-   private final String UPDATE_USUARIO  = "UPDATE usuarios SET email_usuario = ?, rol_admin = ? WHERE id_usuario = ?";
-   private final String GET_ONE_USUARIO = "SELECT * FROM usuarios WHERE id_usuario = ?";
-   private final String GET_ONE_USUARIO_EMAIL = "SELECT * FROM usuarios WHERE email_usuario = ?";
-   private final String GET_ALL_USUARIO = "SELECT * FROM usuarios";  
-	
-		
     public UsuarioDAO(){
  
     }
@@ -29,7 +22,7 @@ import com.milprogramadores.sql.DbConnection;
     	
     	DbConnection conn = new DbConnection();
     	try {
-    		PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ONE_USUARIO_EMAIL);
+    		PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ONE_USUARIO_EMAIL);
     
     		pstmt.setString(1, correo);
     		pstmt.execute();
@@ -58,7 +51,7 @@ import com.milprogramadores.sql.DbConnection;
     	DbConnection conn = new DbConnection();
     	
     	try {
-    		PreparedStatement pstmt = conn.getConnection().prepareStatement(INSERT_USUARIO);
+    		PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.INSERT_USUARIO);
     
     		pstmt.setString(1, usuario.getEmail_usuario());
     		pstmt.setBoolean(2, usuario.getRol_admin());
@@ -75,7 +68,7 @@ import com.milprogramadores.sql.DbConnection;
     	DbConnection conn = new DbConnection();
 	
     	try {
-    		PreparedStatement pstmt = conn.getConnection().prepareStatement(DELETE_USUARIO);
+    		PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.DELETE_USUARIO);
     		pstmt.setInt(1, id);
     		pstmt.executeUpdate();
     		pstmt.close();
@@ -89,7 +82,7 @@ import com.milprogramadores.sql.DbConnection;
 	   DbConnection conn = new DbConnection();
 	 
 	   try {
-		   PreparedStatement pstmt = conn.getConnection().prepareStatement(UPDATE_USUARIO); 
+		   PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.UPDATE_USUARIO); 
 		   pstmt.setString(1, usuario.getEmail_usuario());
 		   pstmt.setBoolean(2, usuario.getRol_admin());
 		   pstmt.setInt(3, usuario.getId_usuario());
@@ -107,7 +100,7 @@ import com.milprogramadores.sql.DbConnection;
 	   DbConnection conn = new DbConnection();
 	
 	   try {
-		   PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ALL_USUARIO);
+		   PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ALL_USUARIO);
 		   pstmt.execute();
 	  
 		   ResultSet rs = pstmt.getResultSet();
@@ -134,7 +127,7 @@ import com.milprogramadores.sql.DbConnection;
     	DbConnection conn = new DbConnection();
     	
     	try {
-    		PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ONE_USUARIO);
+    		PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ONE_USUARIO);
     		pstmt.setInt(1, id);
     		pstmt.execute();
     		ResultSet rs = pstmt.getResultSet();

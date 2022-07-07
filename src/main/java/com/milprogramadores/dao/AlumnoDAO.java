@@ -11,29 +11,42 @@ import com.milprogramadores.model.Examen;
 import com.milprogramadores.model.Materia;
 import com.milprogramadores.model.MesaExamen;
 import com.milprogramadores.sql.DbConnection;
+import com.milprogramadores.sql.SqlQueries;
 
 
 public class AlumnoDAO {
-
-	private final String INSERT_ALUMNO = "INSERT INTO alumnos VALUES ( default, ?, ?, ?, ? )";
-	private final String DELETE_ALUMNO = "DELETE FROM alumnos WHERE alumno_id = ?";
-	private final String UPDATE_ALUMNO = "UPDATE alumnos SET alumno_lu = ?, alumno_nombre = ?, alumno_apellido = ? WHERE alumno_id = ?";
-	private final String GET_ONE_ALUMNO = "SELECT * FROM alumnos WHERE alumno_id = ?";
-	private final String GET_ALL_ALUMNO = "SELECT * FROM alumnos";
-	
-	private final String INSERT_AXC = "INSERT INTO alumnosxcarreras (alumno_id, carrera_id) ";
-	private final String INSERT_DETMAT = "INSERT INTO detallesmaterias (alumno_id, materia_id) ";
-	private final String CARRERA_ID = "SELECT carrera_id from carreras c WHERE c.carrera_nombre = ?";
-	private final String MATERIA_ID = "SELECT materia_id from materias c WHERE c.materia_nombre = ?";
-	private final String CURSAR_CARRERA = INSERT_AXC + "VALUES (( ? " + "), ( " + CARRERA_ID  + "))";
-	private final String CURSAR_MATERIA = INSERT_DETMAT + "VALUES (( ? " + "), ( " + MATERIA_ID + "))";
-	private final String INSCRIBIR_EXAMEN = "INSERT INTO examenes VALUES ( default, ?, ?, ?)";
-	private final String CANCELAR_EXAMEN = "DELETE FROM examenes WHERE alumno_id = ? and mesa_examen_id = ?";
-	private final String RENDIR_EXAMEN = "UPDATE examenes SET nota = ? WHERE alumno_id = ? and mesa_examen_id = ?";
-	private final String OBTENER_HISTORIAL = "SELECT * FROM examenes WHERE alumno_id = ?";
 		
 	public AlumnoDAO() {
 		 
+	}
+	
+	public Alumno obtenerAlumnoUsuario(int id) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ALUMNO_USUARIO);
+			pstmt.setInt(1, id);
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next()) {
+				Alumno alumno = new Alumno();
+				
+				alumno.setAlumno_id(rs.getInt("alumno_id"));
+				alumno.setAlumno_lu(rs.getInt("alumno_lu"));
+				alumno.setAlumno_nombre(rs.getString("alumno_nombre"));
+				alumno.setAlumno_apellido(rs.getString("alumno_apellido"));
+				alumno.setId_usuario(rs.getInt("id_usuario"));
+				return alumno;
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return null;
 	}
 	
 	public ArrayList<Examen> obtenerHistorial(Alumno alumno) {
@@ -41,7 +54,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(OBTENER_HISTORIAL);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.OBTENER_HISTORIAL);
 			pstmt.execute();
 			ResultSet rs = pstmt.getResultSet();
 			
@@ -64,7 +77,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(RENDIR_EXAMEN);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.RENDIR_EXAMEN);
 			pstmt.setInt(1, nota);
 			pstmt.setInt(2, alumno.getAlumno_id());
 			pstmt.setInt(3, mesa.getMesa_examen_id());
@@ -78,7 +91,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(INSCRIBIR_EXAMEN);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.INSCRIBIR_EXAMEN);
 			pstmt.setInt(1, 0);
 			pstmt.setInt(2, mesa.getMesa_examen_id());
 			pstmt.setInt(3, alumno.getAlumno_id());
@@ -92,7 +105,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(CANCELAR_EXAMEN);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.CANCELAR_EXAMEN);
 			pstmt.setInt(1, alumno.getAlumno_id());
 			pstmt.setInt(2, mesa.getMesa_examen_id());
 			pstmt.executeUpdate();
@@ -105,7 +118,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(CURSAR_CARRERA);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.CURSAR_CARRERA);
 			pstmt.setInt(1, alumno.getAlumno_id());
 			pstmt.setString(2, carrera.getNombre());
 			
@@ -121,7 +134,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(CURSAR_MATERIA);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.CURSAR_MATERIA);
 			pstmt.setInt(1, alumno.getAlumno_id());
 			pstmt.setString(2, materia.getNombre());
 			
@@ -136,7 +149,7 @@ public class AlumnoDAO {
 	public void agregarAlumno(Alumno alumno) {
 		DbConnection conn = new DbConnection();
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(INSERT_ALUMNO);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.INSERT_ALUMNO);
 			
 			pstmt.setInt(1, alumno.getAlumno_lu());
 			pstmt.setString(2, alumno.getAlumno_nombre());
@@ -163,7 +176,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(DELETE_ALUMNO);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.DELETE_ALUMNO);
 			pstmt.setInt(1, id);	
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -177,7 +190,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(UPDATE_ALUMNO);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.UPDATE_ALUMNO);
 			
 			pstmt.setInt(1, alumno.getAlumno_lu());
 			pstmt.setString(2, alumno.getAlumno_nombre());
@@ -198,7 +211,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ALL_ALUMNO);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ALL_ALUMNO);
 			pstmt.execute();
 			ResultSet rs = pstmt.getResultSet();
 			
@@ -227,7 +240,7 @@ public class AlumnoDAO {
 		DbConnection conn = new DbConnection();
 				
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ONE_ALUMNO);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ONE_ALUMNO);
 			pstmt.setInt(1, id);
 			pstmt.execute();
 			ResultSet rs = pstmt.getResultSet();

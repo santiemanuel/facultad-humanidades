@@ -8,23 +8,10 @@ import java.util.ArrayList;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Materia;
 import com.milprogramadores.sql.DbConnection;
+import com.milprogramadores.sql.SqlQueries;
 
 public class MateriaDAO {
 	
-
-		private final String INSERT_MATERIA = "INSERT INTO materias VALUES ( default, ? )";
-		private final String DELETE_MATERIA = "DELETE FROM materias WHERE materia_id = ?";
-		private final String UPDATE_MATERIA = "UPDATE materias SET materia_nombre = ?";
-		private final String GET_ONE_MATERIA = "SELECT * FROM materias WHERE materia_id = ?";
-		private final String GET_ALL_MATERIA = "SELECT * FROM materias";
-		private final String GET_CARRERAS_MATERIA = "SELECT * " +
-													"FROM carreras c " +
-													"INNER JOIN materiasxcarreras mxc " +
-													"ON c.carrera_id = mxc.carrera_id " +
-													"INNER JOIN materias m " +
-													"ON m.materia_id = mxc.materia_id " +
-													"WHERE m.materia_nombre = ?";
-		
 		public MateriaDAO() {
 			 
 		}
@@ -35,7 +22,7 @@ public class MateriaDAO {
 			DbConnection conn = new DbConnection();
 			
 			try {
-				PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_CARRERAS_MATERIA);
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_CARRERAS_MATERIA);
 				pstmt.setString(1, materia.getNombre());
 				pstmt.execute();
 				ResultSet rs = pstmt.getResultSet();
@@ -60,7 +47,7 @@ public class MateriaDAO {
 			DbConnection conn = new DbConnection();
 			
 			try {
-				PreparedStatement pstmt = conn.getConnection().prepareStatement(INSERT_MATERIA);
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.INSERT_MATERIA);
 				pstmt.setString(1, materia.getNombre());
 				pstmt.executeUpdate();
 				
@@ -76,7 +63,7 @@ public class MateriaDAO {
 			DbConnection conn = new DbConnection();
 			
 			try {
-				PreparedStatement pstmt = conn.getConnection().prepareStatement(UPDATE_MATERIA);
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.UPDATE_MATERIA);
 				pstmt.setString(1, materia.getNombre());
 				pstmt.executeUpdate();
 				
@@ -91,7 +78,7 @@ public class MateriaDAO {
 			DbConnection conn = new DbConnection();
 				
 			try {
-				PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ONE_MATERIA);
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ONE_MATERIA);
 				pstmt.setInt(1, id);
 				pstmt.execute();
 				ResultSet rs = pstmt.getResultSet();
@@ -119,7 +106,7 @@ public class MateriaDAO {
 			DbConnection conn = new DbConnection();
 			
 			try {
-				PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ALL_MATERIA);
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ALL_MATERIA);
 				pstmt.execute();
 				ResultSet rs = pstmt.getResultSet();
 				
@@ -144,7 +131,7 @@ public class MateriaDAO {
 			DbConnection conn = new DbConnection();
 			
 			try {
-				PreparedStatement pstmt = conn.getConnection().prepareStatement(DELETE_MATERIA);
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.DELETE_MATERIA);
 				pstmt.setInt(1, id);
 				pstmt.executeUpdate();
 				conn.disconnect();

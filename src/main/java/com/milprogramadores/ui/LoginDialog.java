@@ -21,6 +21,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.milprogramadores.dao.DAOManager;
+import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Credencial;
 import com.milprogramadores.model.Usuario;
 
@@ -97,13 +98,16 @@ public class LoginDialog extends JDialog {
 				 
 				Usuario usuario = dao.getUsuarioDAO().usuarioPorCorreo(correo);
 				
+				usuario.getRol_admin();
+				
 				if (usuario == null)
 					JOptionPane.showMessageDialog(panel, "El usuario no está registrado", "Error", JOptionPane.ERROR_MESSAGE);
 				else 
 				{
 					Credencial credencial = dao.getCredencialDAO().credencialUsuario(usuario.getId_usuario());
 					if (credencial.checkPassword(pass)) {
-						MainWindow frame = new MainWindow();
+						Alumno alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
+						MainWindow frame = new MainWindow(alumno);
 						frame.setVisible(true);
 						dispose();
 					} else {

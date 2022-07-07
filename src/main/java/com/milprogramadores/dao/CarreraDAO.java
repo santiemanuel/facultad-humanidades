@@ -8,24 +8,68 @@ import java.util.ArrayList;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Materia;
 import com.milprogramadores.sql.DbConnection;
+import com.milprogramadores.sql.SqlQueries;
 
 public class CarreraDAO {
 
-	private final String INSERT_CARRERA = "INSERT INTO carreras VALUES ( default, ? )";
-	private final String DELETE_CARRERA = "DELETE FROM carreras WHERE carrera_id = ?";
-	private final String UPDATE_CARRERA = "UPDATE carreras SET carrera_nombre = ?";
-	private final String GET_ONE_CARRERA = "SELECT * FROM carreras WHERE carrera_id = ?";
-	private final String GET_ALL_CARRERA = "SELECT * FROM carreras";
-	private final String GET_MATERIAS_CARRERA = "SELECT * " +
-												"FROM materias m " +
-												"INNER JOIN materiasxcarreras mxc " +
-												"ON m.materia_id = mxc.materia_id " +
-												"INNER JOIN carreras c " +
-												"ON c.carrera_id = mxc.carrera_id " +
-												"WHERE c.carrera_nombre = ?";
+
 	
 	public CarreraDAO() {
 		 
+	}
+	
+	public ArrayList<Carrera> carrerasFaltantes(int id){
+		ArrayList<Carrera> carreras = new ArrayList<Carrera>();
+		
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_CARRERAS_FALTANTES);
+			pstmt.setInt(1, id);
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			while(rs.next()) {
+				Carrera carrera = new Carrera();
+				carrera.setCarrera_id(rs.getInt("carrera_id"));
+				carrera.setNombre(rs.getString("carrera_nombre"));
+				carreras.add(carrera);
+			}
+			rs.close();
+			pstmt.close();
+			conn.disconnect();	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return carreras;
+	}
+	
+	public ArrayList<Carrera> carrerasAlumno(int id){
+		ArrayList<Carrera> carreras = new ArrayList<Carrera>();
+		
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_CARRERAS_ALUMNO);
+			pstmt.setInt(1, id);
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			while(rs.next()) {
+				Carrera carrera = new Carrera();
+				carrera.setCarrera_id(rs.getInt("carrera_id"));
+				carrera.setNombre(rs.getString("carrera_nombre"));
+				carreras.add(carrera);
+			}
+			rs.close();
+			pstmt.close();
+			conn.disconnect();	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return carreras;
 	}
 	
 	public ArrayList<Materia> materiasDeCarrera(Carrera carrera){
@@ -34,7 +78,7 @@ public class CarreraDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_MATERIAS_CARRERA);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_MATERIAS_CARRERA);
 			pstmt.setString(1, carrera.getNombre());
 			pstmt.execute();
 			ResultSet rs = pstmt.getResultSet();
@@ -59,7 +103,7 @@ public class CarreraDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(INSERT_CARRERA);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.INSERT_CARRERA);
 			pstmt.setString(1, carrera.getNombre());
 			pstmt.executeUpdate();
 			
@@ -75,7 +119,7 @@ public class CarreraDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(UPDATE_CARRERA);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.UPDATE_CARRERA);
 			pstmt.setString(1, carrera.getNombre());
 			pstmt.executeUpdate();
 			
@@ -91,7 +135,7 @@ public class CarreraDAO {
 		
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ONE_CARRERA);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ONE_CARRERA);
 			pstmt.setInt(1, id);
 			pstmt.execute();
 			ResultSet rs = pstmt.getResultSet();
@@ -119,7 +163,7 @@ public class CarreraDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ALL_CARRERA);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ALL_CARRERA);
 			pstmt.execute();
 			ResultSet rs = pstmt.getResultSet();
 			
@@ -144,7 +188,7 @@ public class CarreraDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(DELETE_CARRERA);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.DELETE_CARRERA);
 			pstmt.setInt(1, id);	
 			pstmt.executeUpdate();		
 			conn.disconnect();		

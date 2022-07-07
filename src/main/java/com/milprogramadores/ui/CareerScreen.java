@@ -20,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.tablemodel.CarreraTableModel;
 
@@ -29,24 +30,7 @@ public class CareerScreen extends JFrame {
 	private JTable table;
 	private CarreraTableModel tablemodel;
 
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CareerScreen frame = new CareerScreen();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public CareerScreen() {
+	public CareerScreen(final Alumno alumno) {
 		setTitle("Carreras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 400);
@@ -79,6 +63,16 @@ public class CareerScreen extends JFrame {
 		
 		JButton btnAddCareer = new JButton("Inscripci\u00F3n a Carrera");
 		panel_Flow_Career.add(btnAddCareer);
+		
+		btnAddCareer.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				
+				SelectCareer selector = new SelectCareer(alumno);
+				selector.setVisible(true);				
+			}
+			
+		});
 		
 		JButton btnDetCareer = new JButton("Ver detalles Carrera");
 		panel_Flow_Career.add(btnDetCareer);
@@ -127,7 +121,7 @@ public class CareerScreen extends JFrame {
 		
 		table = new JTable();
 		tablemodel = new CarreraTableModel();
-		tablemodel.updateModel();
+		tablemodel.updateModel(alumno);
 		table.setModel(tablemodel);
 		
 		JScrollPane scrollPane = new JScrollPane();

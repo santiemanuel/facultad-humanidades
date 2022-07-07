@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.milprogramadores.dao.DAOManager;
+import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Carrera;
 
 public class CarreraTableModel extends AbstractTableModel{
@@ -24,6 +25,10 @@ public class CarreraTableModel extends AbstractTableModel{
 
     public void updateModel(){ 
     	carreras = dao.getCarreraDAO().listarCarreras();
+    }
+    
+    public void updateModel(Alumno alumno) {
+    	carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
     }
 
     public String getColumnName(int columnIndex){

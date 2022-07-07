@@ -7,18 +7,11 @@ import java.util.ArrayList;
 import com.milprogramadores.model.Credencial;
 import com.milprogramadores.model.Usuario;
 import com.milprogramadores.sql.DbConnection;
+import com.milprogramadores.sql.SqlQueries;
 
 
 public class CredencialDAO {
  
-	private final String USUARIO_ID = "SELECT id_usuario FROM usuarios WHERE usuarios.email_usuario = ?";
-	private final String INSERT_CREDENCIAL = "INSERT INTO credenciales VALUES (default, ?, ?, ( "+ USUARIO_ID +" ))";
-	private final String DELETE_CREDENCIAL = "DELETE FROM credenciales WHERE id_usuario = ?";
-	private final String UPDATE_CREDENCIAL = "UPDATE credenciales SET salt_and_hash = ?, pass_algo = ? WHERE id_usuario = ?";
-	private final String GET_CREDENCIAL_USUARIO = "SELECT * FROM credenciales WHERE id_usuario = ?";
-	private final String GET_ONE_CREDENCIAL = "SELECT * FROM credenciales WHERE id_credencial = ?";
-	private final String GET_ALL_CREDENCIAL = "SELECT * FROM credenciales";
-
 	
 	public CredencialDAO() {
 	
@@ -28,7 +21,7 @@ public class CredencialDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_CREDENCIAL_USUARIO);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_CREDENCIAL_USUARIO);
 			pstmt.setInt(1, id);
 			
 			pstmt.execute();
@@ -57,7 +50,7 @@ public class CredencialDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(INSERT_CREDENCIAL);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.INSERT_CREDENCIAL);
 			
 			pstmt.setString(1, credencial.getSalt_and_hash());
 			pstmt.setString(2, credencial.getPass_algo());
@@ -75,7 +68,7 @@ public class CredencialDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-		    PreparedStatement pstmt = conn.getConnection().prepareStatement(DELETE_CREDENCIAL);
+		    PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.DELETE_CREDENCIAL);
 		    pstmt.setInt(1, id);
 		    
 		    pstmt.executeUpdate();
@@ -91,7 +84,7 @@ public class CredencialDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(UPDATE_CREDENCIAL);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.UPDATE_CREDENCIAL);
 			
 			pstmt.setString(1, credencial.getSalt_and_hash());
 			pstmt.setString(2, credencial.getPass_algo());
@@ -112,7 +105,7 @@ public class CredencialDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ALL_CREDENCIAL);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ALL_CREDENCIAL);
 			pstmt.execute();
 			
 			ResultSet rs = pstmt.getResultSet();
@@ -140,7 +133,7 @@ public class CredencialDAO {
 		DbConnection conn = new DbConnection();
 		
 		try {
-			PreparedStatement pstmt = conn.getConnection().prepareStatement(GET_ONE_CREDENCIAL);
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ONE_CREDENCIAL);
 			pstmt.setInt(1, id);
 			
 			pstmt.execute();

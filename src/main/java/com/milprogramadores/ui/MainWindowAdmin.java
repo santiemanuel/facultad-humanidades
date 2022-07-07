@@ -1,6 +1,7 @@
 package com.milprogramadores.ui;
 
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -21,19 +22,22 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
 
-public class MainWindow extends JFrame {
+public class MainWindowAdmin extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	public MainWindow(final Alumno alumno) {
+	public static DAOManager dao;
+		
+	public MainWindowAdmin(final Alumno alumno) {
+		setResizable(false);
 		setTitle("Facultad de Humanidades");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 520, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -44,7 +48,7 @@ public class MainWindow extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblName = new JLabel("Alumno: ");
+		JLabel lblName = new JLabel("Administrador: ");
 		panel.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");
@@ -53,43 +57,41 @@ public class MainWindow extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.CENTER);
-		{
-			panel_1.setLayout(new FormLayout(new ColumnSpec[] {
-					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,
-					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,
-					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,
-					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,
-					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,
-					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,},
-				new RowSpec[] {
-					FormSpecs.RELATED_GAP_ROWSPEC,
-					FormSpecs.DEFAULT_ROWSPEC,
-					FormSpecs.RELATED_GAP_ROWSPEC,
-					FormSpecs.DEFAULT_ROWSPEC,
-					FormSpecs.RELATED_GAP_ROWSPEC,
-					FormSpecs.DEFAULT_ROWSPEC,
-					FormSpecs.RELATED_GAP_ROWSPEC,
-					FormSpecs.DEFAULT_ROWSPEC,
-					FormSpecs.RELATED_GAP_ROWSPEC,
-					FormSpecs.DEFAULT_ROWSPEC,
-					FormSpecs.RELATED_GAP_ROWSPEC,
-					FormSpecs.DEFAULT_ROWSPEC,}));
-		};
-				
+		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,}));
+		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon("images/image.png"));
-		lblLogo.setVerticalTextPosition(JLabel.BOTTOM);
+		//lblLogo.setVerticalTextPosition(JLabel.BOTTOM);
 		lblLogo.setVerticalTextPosition(JLabel.CENTER);
 		
-		panel_1.add(lblLogo, "8, 2");
+		panel_1.add(lblLogo, "12, 4, center, default");
 		
-		JButton btnCareers = new JButton("Mis Carreras");
+		JButton btnCareers = new JButton("Carreras");
 		panel_1.add(btnCareers, "4, 12");
 		
 		btnCareers.addActionListener(new ActionListener() {
@@ -98,8 +100,12 @@ public class MainWindow extends JFrame {
 				CareerScreen screen = new CareerScreen(alumno);
 				screen.setVisible(true);
 			}
-		});
 			
+		});
+		
+		btnCareers.setVisible(false);
+		
+		
 		JButton btnReports = new JButton("Reportes");
 		panel_1.add(btnReports, "8, 12");
 		
