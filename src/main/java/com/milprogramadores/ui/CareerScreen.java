@@ -93,7 +93,7 @@ public class CareerScreen extends JFrame {
 				
 				Carrera carrera = (Carrera) tablemodel.getValueAt(fila, CarreraTableModel.OBJECT_COL);
 				
-				SubjectScreen screen = new SubjectScreen(carrera);
+				SubjectScreen screen = new SubjectScreen(alumno, carrera);
 				screen.setVisible(true);
 			}
 			

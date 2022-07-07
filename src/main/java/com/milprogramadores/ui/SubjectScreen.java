@@ -2,6 +2,8 @@ package com.milprogramadores.ui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.tablemodel.MateriaTableModel;
 
@@ -25,7 +28,7 @@ public class SubjectScreen extends JFrame {
 	private JPanel contentPane;
 	private MateriaTableModel tablemodel;
 
-	public SubjectScreen(Carrera carrera) {
+	public SubjectScreen(final Alumno alumno, final Carrera carrera) {
 			setTitle("Materias");
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 550, 400);
@@ -56,8 +59,18 @@ public class SubjectScreen extends JFrame {
 			JPanel panel_Flow_Career = new JPanel();
 			panel_Oper_Career.add(panel_Flow_Career, BorderLayout.WEST);
 			
-			JButton btnAddCareer = new JButton("Inscripcion a Materia");
-			panel_Flow_Career.add(btnAddCareer);
+			JButton btnAddSubject = new JButton("Inscripcion a Materia");
+			panel_Flow_Career.add(btnAddSubject);
+			
+			btnAddSubject.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+					SelectSubject selector = new SelectSubject(alumno, carrera);
+					selector.setVisible(true);
+					
+				}
+				
+			});
 			
 			JButton btnMain = new JButton("Inicio");
 			panel_Bottom.add(btnMain, BorderLayout.EAST);
@@ -77,7 +90,7 @@ public class SubjectScreen extends JFrame {
 			
 			table = new JTable();
 			tablemodel = new MateriaTableModel();
-			tablemodel.updateModel(carrera);
+			tablemodel.updateModel(alumno);
 			table.setModel(tablemodel);
 			
 			JScrollPane scrollPane = new JScrollPane();

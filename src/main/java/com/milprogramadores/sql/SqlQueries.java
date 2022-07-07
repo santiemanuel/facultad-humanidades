@@ -78,7 +78,21 @@ public class SqlQueries {
 		public static String GET_ONE_MATERIA = "SELECT * FROM materias WHERE materia_id = ?";
 		
 		public static String INNER_DM = "INNER JOIN detallesmaterias dm ON dm.materia_id = m.materia_id ";
-		public static String GET_MATERIAS_ALUMNO = "SELECT m.materia_id, m.materia_nombre FROM materias m " + INNER_DM + INNER_ALU;
+		public static String GET_MATERIAS_ALUMNO = "SELECT m.materia_id, m.materia_nombre FROM materias m " +
+													"INNER JOIN detallesmaterias dm ON dm.materia_id = m.materia_id " +
+													"INNER JOIN alumnos a ON a.alumno_id = dm.alumno_id WHERE " +
+													"a.alumno_id = ?";
+		public static String GET_MATERIAS_FALTANTES = "SELECT m.materia_id, m.materia_nombre FROM materias m " + 
+													"INNER JOIN materiasxcarreras mxc " +
+													"ON m.materia_id = mxc.materia_id " + 
+													"INNER JOIN alumnosxcarreras axc1 ON " +
+													"mxc.carrera_id = axc1.carrera_id WHERE " +
+													"m.materia_id NOT IN ( SELECT dm.materia_id " +
+													"FROM detallesmaterias dm INNER JOIN alumnos a " +
+													"ON dm.alumno_id = a.alumno_id INNER JOIN alumnosxcarreras axc " +
+													"ON a.alumno_id = axc.alumno_id WHERE " +
+													"a.alumno_id = ? AND axc.carrera_id = ?) " +
+													"AND mxc.carrera_id = axc1.carrera_id";
 		public static String GET_ALL_MATERIA = "SELECT * FROM materias";
 		public static String GET_CARRERAS_MATERIA = "SELECT * " +
 													"FROM carreras c " +

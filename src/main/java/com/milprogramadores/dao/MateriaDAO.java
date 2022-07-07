@@ -16,6 +16,62 @@ public class MateriaDAO {
 			 
 		}
 		
+		public ArrayList<Materia> materiasFaltantes(int alumno_id, int carrera_id){
+			ArrayList<Materia> materias = new ArrayList<Materia>();
+			
+			DbConnection conn = new DbConnection();
+			
+			try {
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_MATERIAS_FALTANTES);
+				pstmt.setInt(1, alumno_id);
+				pstmt.setInt(2, carrera_id);
+				pstmt.execute();
+				ResultSet rs = pstmt.getResultSet();
+				
+				while(rs.next()) {
+					Materia materia = new Materia();
+					materia.setMateria_id(rs.getInt("materia_id"));
+					materia.setNombre(rs.getString("materia_nombre"));
+					materias.add(materia);
+				}
+				rs.close();
+				pstmt.close();
+				conn.disconnect();	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return materias;
+		}
+		
+		public ArrayList<Materia> materiasAlumno(int id){
+			ArrayList<Materia> materias = new ArrayList<Materia>();
+			
+			DbConnection conn = new DbConnection();
+			
+			try {
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_MATERIAS_ALUMNO);
+				pstmt.setInt(1, id);
+				pstmt.execute();
+				ResultSet rs = pstmt.getResultSet();
+				
+				while(rs.next()) {
+					Materia materia = new Materia();
+					materia.setMateria_id(rs.getInt("materia_id"));
+					materia.setNombre(rs.getString("materia_nombre"));
+					materias.add(materia);
+				}
+				rs.close();
+				pstmt.close();
+				conn.disconnect();	
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return materias;
+		}
+		
+		
 		public ArrayList<Carrera> carrerasDeMateria(Materia materia){
 			ArrayList<Carrera> carreras = new ArrayList<Carrera>();
 			

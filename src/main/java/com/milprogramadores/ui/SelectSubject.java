@@ -2,7 +2,9 @@ package com.milprogramadores.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -14,22 +16,21 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import com.milprogramadores.dao.DAOManager;
+import com.milprogramadores.model.Alumno;
+import com.milprogramadores.model.Carrera;
+import com.milprogramadores.model.Materia;
 
 public class SelectSubject extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
+	private DAOManager dao = new DAOManager();
 
-	public static void main(String[] args) {
-		try {
-			SelectSubject dialog = new SelectSubject();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public SelectSubject() {
+	public SelectSubject(Alumno alumno, Carrera carrera) {
 		setTitle("Materias");
 		setBounds(100, 100, 450, 200);
 		getContentPane().setLayout(new BorderLayout());
@@ -53,26 +54,33 @@ public class SelectSubject extends JDialog {
 			JLabel lblSubjects = new JLabel("Seleccione una materia:");
 			contentPanel.add(lblSubjects, "2, 4");
 		}
-		{
-			JComboBox comboBox = new JComboBox();
-			contentPanel.add(comboBox, "2, 8, fill, default");
+		
+		JComboBox<String> comboBox = new JComboBox<String>(); 
+		ArrayList<Materia> materias = dao.getMateriaDAO().materiasFaltantes(alumno.getAlumno_id(), carrera.getCarrera_id());
+		DefaultComboBoxModel<String> combomodel = new DefaultComboBoxModel<String>();
+		for (Materia m: materias) {
+			combomodel.addElement(m.getNombre());
 		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("Inscribir");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}	
+		
+		comboBox.setModel(combomodel);	
+		
+		
+		
+		contentPanel.add(comboBox, "2, 8, fill, default");
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		
+		JButton okButton = new JButton("Inscribir");
+		okButton.setActionCommand("OK");
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+			
+		JButton cancelButton = new JButton("Cancelar");
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
+			
 		setLocationRelativeTo(null);
 	}
 
