@@ -27,8 +27,8 @@ import com.milprogramadores.tablemodel.CarreraTableModel;
 public class CareerScreen extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
-	private CarreraTableModel tablemodel;
+	JTable table;
+	CarreraTableModel tablemodel;
 
 	public CareerScreen(final Alumno alumno) {
 		setTitle("Carreras");
@@ -68,8 +68,8 @@ public class CareerScreen extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				SelectCareer selector = new SelectCareer(alumno);
-				selector.setVisible(true);				
+				SelectCareer selector = new SelectCareer(CareerScreen.this, alumno);
+				selector.setVisible(true);			
 			}
 			
 		});
@@ -92,6 +92,8 @@ public class CareerScreen extends JFrame {
 				dispose();
 				
 				Carrera carrera = (Carrera) tablemodel.getValueAt(fila, CarreraTableModel.OBJECT_COL);
+				
+				System.out.println(carrera.getNombre());
 				
 				SubjectScreen screen = new SubjectScreen(alumno, carrera);
 				screen.setVisible(true);

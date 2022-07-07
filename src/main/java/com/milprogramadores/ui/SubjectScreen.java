@@ -90,7 +90,7 @@ public class SubjectScreen extends JFrame {
 			
 			table = new JTable();
 			tablemodel = new MateriaTableModel();
-			tablemodel.updateModel(alumno);
+			tablemodel.updateModel(alumno, carrera);
 			table.setModel(tablemodel);
 			
 			JScrollPane scrollPane = new JScrollPane();

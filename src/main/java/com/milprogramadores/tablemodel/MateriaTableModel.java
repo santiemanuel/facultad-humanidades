@@ -23,8 +23,8 @@ public class MateriaTableModel extends AbstractTableModel{
     	
     }
 
-    public void updateModel(Alumno alumno) {
-    	materias = dao.getMateriaDAO().materiasAlumno(alumno.getAlumno_id());
+    public void updateModel(Alumno alumno, Carrera carrera) {
+    	materias = dao.getMateriaDAO().materiasAlumno(alumno.getAlumno_id(), carrera.getCarrera_id());
     }
     
     public void updateModel(){ 

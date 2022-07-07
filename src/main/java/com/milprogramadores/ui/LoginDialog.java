@@ -61,6 +61,7 @@ public class LoginDialog extends JDialog {
 		}
 		{
 			emailField = new JTextField();
+			emailField.setText("aldo@gmail.com");
 			contentPanel.add(emailField, "6, 2, fill, default");
 			emailField.setColumns(10);
 		}

@@ -44,14 +44,15 @@ public class MateriaDAO {
 			return materias;
 		}
 		
-		public ArrayList<Materia> materiasAlumno(int id){
+		public ArrayList<Materia> materiasAlumno(int id_alumno, int id_carrera){
 			ArrayList<Materia> materias = new ArrayList<Materia>();
 			
 			DbConnection conn = new DbConnection();
 			
 			try {
 				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_MATERIAS_ALUMNO);
-				pstmt.setInt(1, id);
+				pstmt.setInt(1, id_alumno);
+				pstmt.setInt(2, id_carrera);
 				pstmt.execute();
 				ResultSet rs = pstmt.getResultSet();
 				
