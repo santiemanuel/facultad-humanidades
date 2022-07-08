@@ -3,11 +3,13 @@ package com.milprogramadores.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Examen;
+import com.milprogramadores.model.Historial;
 import com.milprogramadores.model.Materia;
 import com.milprogramadores.model.MesaExamen;
 import com.milprogramadores.sql.DbConnection;
@@ -18,6 +20,53 @@ public class AlumnoDAO {
 		
 	public AlumnoDAO() {
 		 
+	}
+	
+	public Byte obtenerNota(Alumno alumno, Examen examen) {
+		
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.OBTENER_NOTA);
+			pstmt.setInt(1, alumno.getAlumno_id());
+			pstmt.setInt(2, examen.getExamen_id());
+			ResultSet rs = pstmt.getResultSet();
+			if (rs.next()) {
+				return rs.getByte("nota");
+			}
+			pstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
+	
+	public ArrayList<Historial> listarExamenes(Alumno alumno, LocalDate fecha) {
+		DbConnection conn = new DbConnection();
+		ArrayList<Historial> examenes = new ArrayList<Historial>();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.LISTAR_EXAMENES);
+			pstmt.setInt(1, alumno.getAlumno_id());
+			pstmt.setDate(2, java.sql.Date.valueOf(fecha));
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			while(rs.next()) {
+				Historial entrada = new Historial();
+				entrada.setExamen_id(rs.getInt("examen_id"));
+				entrada.setCarrera_nombre(rs.getString("carrera_nombre"));
+				entrada.setMateria_nombre(rs.getString("materia_nombre"));
+				entrada.setFecha(rs.getDate("fecha").toLocalDate());
+				entrada.setNota(rs.getByte("nota"));
+				examenes.add(entrada);
+			}
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+		return examenes;
 	}
 	
 	public Alumno obtenerAlumnoUsuario(int id) {
@@ -83,14 +132,14 @@ public class AlumnoDAO {
 		return false;
 	}
 	
-	public void rendirExamen(Alumno alumno, MesaExamen mesa, int nota) {
+	public void rendirExamen(Alumno alumno, Integer examen_id, int nota) {
 		DbConnection conn = new DbConnection();
 		
 		try {
 			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.RENDIR_EXAMEN);
 			pstmt.setInt(1, nota);
 			pstmt.setInt(2, alumno.getAlumno_id());
-			pstmt.setInt(3, mesa.getMesa_examen_id());
+			pstmt.setInt(3, examen_id);
 			pstmt.executeUpdate();
 		}  catch (SQLException e) {
 			e.printStackTrace();
@@ -111,13 +160,13 @@ public class AlumnoDAO {
 		}
 	}
 	
-	public void cancelarExamen(Alumno alumno, MesaExamen mesa) {
+	public void cancelarExamen(Alumno alumno, Integer examen_id) {
 		DbConnection conn = new DbConnection();
 		
 		try {
 			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.CANCELAR_EXAMEN);
 			pstmt.setInt(1, alumno.getAlumno_id());
-			pstmt.setInt(2, mesa.getMesa_examen_id());
+			pstmt.setInt(2, examen_id);
 			pstmt.executeUpdate();
 		}  catch (SQLException e) {
 			e.printStackTrace();

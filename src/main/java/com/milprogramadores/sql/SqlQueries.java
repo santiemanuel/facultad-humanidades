@@ -19,9 +19,21 @@ public class SqlQueries {
 		public static String CURSAR_CARRERA = INSERT_AXC + "VALUES (( ? " + "), ( " + CARRERA_ID  + "))";
 		public static String CURSAR_MATERIA = INSERT_DETMAT + "VALUES (( ? " + "), ( " + MATERIA_ID + "))";
 		public static String INSCRIBIR_EXAMEN = "INSERT INTO examenes VALUES ( default, ?, ?, ?)";
-		public static String CANCELAR_EXAMEN = "DELETE FROM examenes WHERE alumno_id = ? and mesa_examen_id = ?";
-		public static String RENDIR_EXAMEN = "UPDATE examenes SET nota = ? WHERE alumno_id = ? and mesa_examen_id = ?";
+		public static String CANCELAR_EXAMEN = "DELETE FROM examenes WHERE alumno_id = ? and examen_id = ?";
+		public static String RENDIR_EXAMEN = "UPDATE examenes SET nota = ? WHERE alumno_id = ? and examen_id = ?";
 		public static String OBTENER_HISTORIAL = "SELECT * FROM examenes WHERE alumno_id = ?";
+		public static String OBTENER_NOTA = "SELECT nota from examenes WHERE alumno_id = ? and examen_id = ?";
+		public static String LISTAR_EXAMENES =  "SELECT e.examen_id, c.carrera_nombre, m.materia_nombre, me.fecha, e.nota "
+												+ "FROM examenes e "
+												+ "INNER JOIN mesas_examen me "
+												+ "ON e.mesa_examen_id = me.mesa_examen_id "
+												+ "INNER JOIN materiasxcarreras mxc "
+												+ "ON mxc.mxc_id = me.mxc_id "
+												+ "INNER JOIN carreras c "
+												+ "ON mxc.carrera_id = c.carrera_id "
+												+ "INNER JOIN materias m "
+												+ "ON mxc.materia_id = m.materia_id "
+												+ "WHERE e.alumno_id = ? and me.fecha >= ? and e.nota = 0";
 	/*
 	 * Consultas DAO Carrera
 	 */

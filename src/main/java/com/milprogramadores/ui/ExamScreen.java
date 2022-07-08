@@ -46,7 +46,7 @@ public class ExamScreen extends JFrame {
 
 	public ExamScreen(final Alumno alumno) {
 		
-	  setTitle("Inscripci\u00F3n a Examen");
+	  setTitle("Inscripción a Examen");
 	  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	  setBounds(100, 100, 520, 400);
 	  contentPane = new JPanel();
@@ -109,7 +109,19 @@ public class ExamScreen extends JFrame {
 	  JPanel panel_My_Exams = new JPanel();
 	  panel_Bottom.add(panel_My_Exams, BorderLayout.EAST);
 	  
-	  JButton btnMyExams = new JButton("Mis Ex\u00E1menes");
+	  JButton btnMyExams = new JButton("Mis Exámenes");
+	  
+	  btnMyExams.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			MyExamsScreen screen = new MyExamsScreen(alumno);
+			screen.setVisible(true);
+			dispose();
+		}
+		  
+	  });
+	  
 	  panel_My_Exams.add(btnMyExams);
 			
 	  LocalDate today = LocalDate.of(2022, 12, 6);
