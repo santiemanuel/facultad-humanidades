@@ -68,17 +68,25 @@ public class CareerScreen extends JFrame {
 		JButton btnAddCareer = new JButton("Inscripción a Carrera");
 		panel_Flow_Career.add(btnAddCareer);
 		
-		if (usuario.getRol_admin())
+		if ((usuario != null)) {
 			btnAddCareer.setText("Crear Nueva Carrera");
+		}
+			
 		
 		btnAddCareer.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				InsertCareer dialog = new InsertCareer();
-				dialog.setVisible(true);
+				if ((usuario != null)) {
+					btnAddCareer.setText("Crear Nueva Carrera");
+					InsertCareer dialog = new InsertCareer();
+					dialog.setVisible(true);
+					return;
+				} else {
+					SelectCareer selector = new SelectCareer(CareerScreen.this, alumno);
+					selector.setVisible(true);	
+				}
 			}
-			
 		});
 		
 		JButton btnDetCareer = new JButton("Ver detalles Carrera");
@@ -130,7 +138,7 @@ public class CareerScreen extends JFrame {
 		
 		table = new JTable();
 		tablemodel = new CarreraTableModel();
-		if (usuario.getRol_admin())
+		if (usuario != null)
 			tablemodel.updateModel();
 		else
 			tablemodel.updateModel(alumno);
