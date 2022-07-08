@@ -103,8 +103,17 @@ public class MainWindow extends JFrame {
 		JButton btnReports = new JButton("Reportes");
 		panel_1.add(btnReports, "8, 12");
 		
-		JButton btnExams = new JButton("Ex\u00E1menes");
+		JButton btnExams = new JButton("Exámenes");
 		panel_1.add(btnExams, "12, 12");
+		
+		btnExams.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				ExamScreen screen = new ExamScreen(alumno);
+				screen.setVisible(true);
+			}
+			
+		});
 		
 		LocalDate today = LocalDate.of(2022, 12, 6);
 		

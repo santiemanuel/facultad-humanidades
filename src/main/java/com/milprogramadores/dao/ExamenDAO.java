@@ -4,7 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
+import com.milprogramadores.model.Alumno;
+import com.milprogramadores.model.AlumnoExamen;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Materia;
 import com.milprogramadores.model.MesaExamen;
@@ -20,6 +23,73 @@ public class ExamenDAO {
 	
 	public ExamenDAO() {
 		
+	}
+	
+	public ArrayList<AlumnoExamen> examenesCompatibles(ArrayList<Integer> materias_id){
+		ArrayList<AlumnoExamen> examenesAlumno = new ArrayList<AlumnoExamen>();
+		
+		if (materias_id.size() == 0) return examenesAlumno;
+		
+		DbConnection conn = new DbConnection();
+		
+		String queryExamenes = SqlQueries.GET_MESA_X_CARRERA;
+		
+		String query = String.format(queryExamenes, materias_id.stream()
+				.map(v -> "?")
+				.collect(Collectors.joining(", ")));
+		
+		System.out.println(query);
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(query);
+			for (int i = 0; i < materias_id.size() ; i++) {
+				pstmt.setInt((i + 1), materias_id.get(i));
+			}
+			
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			while(rs.next()) {
+				AlumnoExamen examen = new AlumnoExamen();
+				examen.setMesa_examen_id(rs.getInt("mesa_examen_id"));
+				examen.setMateria_nombre(rs.getString("materia_nombre"));
+				examen.setFecha(rs.getDate("fecha").toLocalDate());
+				examenesAlumno.add(examen);
+			}
+			rs.close();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return examenesAlumno;
+	}
+	
+	public ArrayList<Integer> listarMateriasAlumno(Carrera carrera, Alumno alumno) {
+		
+		ArrayList<Integer> materiasId = new ArrayList<Integer>();
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_MATS_CARRERA);
+			pstmt.setInt(1, carrera.getCarrera_id());
+			pstmt.setInt(2, alumno.getAlumno_id());
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			while(rs.next()) {
+				Integer mxc_id = Integer.valueOf(rs.getInt("mxc_id"));
+				materiasId.add(mxc_id);
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return materiasId;
 	}
 	
 	public void agregarMesaExamen(MesaExamen mesa, Materia materia, Carrera carrera) {

@@ -67,8 +67,29 @@ public class SqlQueries {
 		public static String DELETE_EXAMEN = "DELETE FROM mesas_examen WHERE mesa_examen_id = ?";
 		public static String UPDATE_EXAMEN = "UPDATE mesas_examen SET fecha = ?, mxc_id = ( " + MXC_ID + ") WHERE mesa_examen_id = ?";
 		public static String GET_ONE_EXAMEN = "SELECT * FROM mesas_examen WHERE mesa_examen_id = ?";
-		public static String GET_ALL_EXAMEN = "SELECT * FROM mesas_examen";	
-		
+		public static String GET_ALL_EXAMEN = "SELECT * FROM mesas_examen";
+		public static String GET_MATS_CARRERA = "SELECT mxc1.mxc_id FROM materias m1 " +
+												"INNER JOIN detallesmaterias dm " +
+												"ON m1.materia_id = dm.materia_id " +
+												"INNER JOIN materiasxcarreras mxc1 " +
+												"ON dm.materia_id = mxc1.materia_id " + 
+												"INNER JOIN alumnos a " +
+												"ON dm.alumno_id = a.alumno_id " + 
+												"WHERE dm.materia_id in ( " +
+												"SELECT m2.materia_id " +
+												"FROM materias m2 " +
+												"INNER JOIN materiasxcarreras mxc " +
+												"ON m2.materia_id = mxc.materia_id " +
+												"WHERE mxc.carrera_id = ?) AND a.alumno_id = ?";										
+		public static String GET_MESA_X_CARRERA = "SELECT me.mesa_examen_id, m.materia_nombre, " +
+												"me.fecha FROM mesas_examen me " +
+												"INNER JOIN materiasxcarreras mxc1 " +
+												"ON	me.mxc_id = mxc1.mxc_id " +
+												"INNER JOIN materias m " +
+												"ON mxc1.materia_id = m.materia_id " + 
+												"INNER JOIN carreras c " +
+												"ON mxc1.carrera_id = c.carrera_id " +
+												"WHERE me.mxc_id in (%s)";
 	/*
 	 * Consultas DAO Materia
 	 */

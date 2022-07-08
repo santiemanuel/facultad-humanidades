@@ -4,12 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,33 +22,26 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.milprogramadores.dao.DAOManager;
+import com.milprogramadores.model.Alumno;
+import com.milprogramadores.model.Carrera;
+import com.milprogramadores.tablemodel.AlumnoExamenTableModel;
+
+import java.awt.FlowLayout;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+
 public class ExamScreen extends JFrame {
 
 	private JPanel contentPane;
+	private JTable table;
+	private AlumnoExamenTableModel tablemodel;
+	private DAOManager dao = new DAOManager();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ExamScreen frame = new ExamScreen();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public ExamScreen() {
+	public ExamScreen(final Alumno alumno) {
 		
-	  setTitle("Mesa Examen");
-	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	  setTitle("Inscripci\u00F3n a Examen");
+	  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	  setBounds(100, 100, 520, 400);
 	  contentPane = new JPanel();
 	  contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,21 +67,17 @@ public class ExamScreen extends JFrame {
 	  panel_Bottom.add(panel_Oper_Career, BorderLayout.WEST);
 	  panel_Oper_Career.setLayout(new BorderLayout(0, 0));
 			
-	  JPanel panel_Flow_Career = new JPanel();
-	  panel_Oper_Career.add(panel_Flow_Career, BorderLayout.WEST);
+	  JPanel panel_Flow_Register = new JPanel();
+	  panel_Oper_Career.add(panel_Flow_Register, BorderLayout.WEST);
 			
-	  JButton btnAddExam = new JButton("Inscripcion a Examenes");
-	  panel_Flow_Career.add(btnAddExam);
+	  JButton btnAddExam = new JButton("Inscribirse");
+	  panel_Flow_Register.add(btnAddExam);
 	  
-	  JButton btnTakeExam = new JButton("Rendir Examen");
-	  btnTakeExam.addActionListener(new ActionListener() {
-	  	public void actionPerformed(ActionEvent e) {
-	  	}
-	  });
-	  panel_Flow_Career.add(btnTakeExam);
+	  JPanel panel_My_Exams = new JPanel();
+	  panel_Bottom.add(panel_My_Exams, BorderLayout.EAST);
 	  
-	  JButton btnCancelExam = new JButton("Cancelar Examen");
-	  panel_Flow_Career.add(btnCancelExam);
+	  JButton btnMyExams = new JButton("Mis Ex\u00E1menes");
+	  panel_My_Exams.add(btnMyExams);
 			
 	  LocalDate today = LocalDate.of(2022, 12, 6);
 		
@@ -95,9 +88,50 @@ public class ExamScreen extends JFrame {
 	  String format = formatFecha.format(Date.from(instant)); 
 			
 	  lblDate.setText("Fecha: " + format);
-			
-	  JTable table= new JTable();
-	  contentPane.add(table, BorderLayout.CENTER);
+	  
+	  JPanel panel_Selector_Table = new JPanel();
+	  contentPane.add(panel_Selector_Table, BorderLayout.CENTER);
+	  panel_Selector_Table.setLayout(new BorderLayout(0, 0));
+	  
+	  table = new JTable();
+	 
+	  
+	  JPanel panel_Label_Selector = new JPanel();
+	  panel_Selector_Table.add(panel_Label_Selector, BorderLayout.NORTH);
+	  
+	  JLabel lblSelectCareer = new JLabel("Seleccione su carrera:");
+	  panel_Label_Selector.add(lblSelectCareer);
+	  
+	  JComboBox<String> comboBox = new JComboBox<String>();
+	  ArrayList<Carrera> carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
+	  
+	  DefaultComboBoxModel<String> combomodel = new DefaultComboBoxModel<String>();
+	  for (Carrera c: carreras) {
+			combomodel.addElement(c.getNombre());
+	  };
+
+	  comboBox.addItemListener(new ItemListener() {
+
+		public void itemStateChanged(ItemEvent e) {
+			if (e.getStateChange() == ItemEvent.SELECTED) {
+				@SuppressWarnings("unchecked")
+				Integer index = ((JComboBox<String>) e.getSource()).getSelectedIndex();
+				tablemodel = new AlumnoExamenTableModel();
+				tablemodel.updateModel(alumno, carreras.get(index));
+				table.setModel(tablemodel);
+			}
+		}
+	  });
+	  
+	  JScrollPane scrollPane = new JScrollPane();
+	  scrollPane.setViewportView(table);
+		
+	  panel_Selector_Table.add(scrollPane, BorderLayout.CENTER);
+	  
+	  comboBox.setModel(combomodel);
+	  comboBox.setSelectedIndex(0);
+	  
+	  panel_Label_Selector.add(comboBox);
 			
 	  setLocationRelativeTo(null);
 	}
