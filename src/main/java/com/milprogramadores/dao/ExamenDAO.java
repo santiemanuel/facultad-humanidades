@@ -37,8 +37,7 @@ public class ExamenDAO {
 		String query = String.format(queryExamenes, materias_id.stream()
 				.map(v -> "?")
 				.collect(Collectors.joining(", ")));
-		
-		System.out.println(query);
+
 		try {
 			PreparedStatement pstmt = conn.getConnection().prepareStatement(query);
 			for (int i = 0; i < materias_id.size() ; i++) {

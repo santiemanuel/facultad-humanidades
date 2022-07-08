@@ -17,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -24,8 +25,12 @@ import javax.swing.border.EmptyBorder;
 
 import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
+import com.milprogramadores.model.AlumnoExamen;
 import com.milprogramadores.model.Carrera;
+import com.milprogramadores.model.Examen;
+import com.milprogramadores.model.MesaExamen;
 import com.milprogramadores.tablemodel.AlumnoExamenTableModel;
+import com.milprogramadores.tablemodel.CarreraTableModel;
 
 import java.awt.FlowLayout;
 import javax.swing.JComboBox;
@@ -71,6 +76,33 @@ public class ExamScreen extends JFrame {
 	  panel_Oper_Career.add(panel_Flow_Register, BorderLayout.WEST);
 			
 	  JButton btnAddExam = new JButton("Inscribirse");
+	  
+	  btnAddExam.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JPanel panel = new JPanel();
+			int fila = table.getSelectedRow();
+			
+			if (fila < 0) {
+				JOptionPane.showMessageDialog(panel, "Debe seleccionar una carrera", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			};
+			AlumnoExamen examen = (AlumnoExamen) tablemodel.getValueAt(fila, AlumnoExamenTableModel.OBJECT_COL);
+			
+			ArrayList<Examen> listaExamen = dao.getAlumnoDAO().obtenerHistorial(alumno);
+			
+			Boolean estaInscripto = dao.getAlumnoDAO().buscarExamenId(listaExamen, examen.getMesa_examen_id());
+			
+			if (!estaInscripto) {
+				MesaExamen mesa = dao.getExamenDAO().obtenerMesaExamen(examen.getMesa_examen_id());
+				dao.getAlumnoDAO().inscribirExamen(alumno, mesa);
+				JOptionPane.showMessageDialog(panel, "Te has inscripto para rendir", "Info", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(panel, "Ya estás inscripto a esa mesa de examen", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	  });
 	  panel_Flow_Register.add(btnAddExam);
 	  
 	  JPanel panel_My_Exams = new JPanel();
@@ -95,7 +127,6 @@ public class ExamScreen extends JFrame {
 	  
 	  table = new JTable();
 	 
-	  
 	  JPanel panel_Label_Selector = new JPanel();
 	  panel_Selector_Table.add(panel_Label_Selector, BorderLayout.NORTH);
 	  

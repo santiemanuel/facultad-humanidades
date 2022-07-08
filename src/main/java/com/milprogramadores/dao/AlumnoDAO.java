@@ -55,6 +55,7 @@ public class AlumnoDAO {
 		
 		try {
 			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.OBTENER_HISTORIAL);
+			pstmt.setInt(1, alumno.getAlumno_id());
 			pstmt.execute();
 			ResultSet rs = pstmt.getResultSet();
 			
@@ -71,6 +72,15 @@ public class AlumnoDAO {
 		}
 	
 		return examenes;
+	}
+	
+	public Boolean buscarExamenId(ArrayList<Examen> examenes, int idPorInscribir) {
+		
+		for (Examen e: examenes) {
+			if (e.getMesa_examen_id() == idPorInscribir)
+				return true;
+		}
+		return false;
 	}
 	
 	public void rendirExamen(Alumno alumno, MesaExamen mesa, int nota) {

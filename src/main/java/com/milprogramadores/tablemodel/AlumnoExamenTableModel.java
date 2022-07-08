@@ -15,6 +15,7 @@ public class AlumnoExamenTableModel extends AbstractTableModel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static final int OBJECT_COL = -1;
 	private DAOManager dao = new DAOManager();
     private List<AlumnoExamen> examenes = new ArrayList<AlumnoExamen>();
 
@@ -58,7 +59,7 @@ public class AlumnoExamenTableModel extends AbstractTableModel{
                 return seleccion.getMateria_nombre();
             case 2:
             	return seleccion.getFecha();
-
+            case OBJECT_COL : return seleccion;
             default:
                 return "";
         }

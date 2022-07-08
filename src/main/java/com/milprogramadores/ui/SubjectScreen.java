@@ -67,7 +67,6 @@ public class SubjectScreen extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					SelectSubject selector = new SelectSubject(alumno, carrera);
 					selector.setVisible(true);
-					
 				}
 				
 			});

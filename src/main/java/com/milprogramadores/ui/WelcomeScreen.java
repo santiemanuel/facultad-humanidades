@@ -68,7 +68,7 @@ public class WelcomeScreen extends JFrame {
 		lblLogo.setVerticalTextPosition(JLabel.CENTER);
 		panel_1.add(lblLogo, "cell 4 0");
 		
-		JButton btnLogin = new JButton("Iniciar Sesi\u00F3n");
+		JButton btnLogin = new JButton("Iniciar Sesión");
 		panel_1.add(btnLogin, "cell 1 5");
 		
 		
