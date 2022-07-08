@@ -22,7 +22,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.milprogramadores.dao.DAOManager;
-import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Usuario;
 
 public class MainWindowAdmin extends JFrame {
