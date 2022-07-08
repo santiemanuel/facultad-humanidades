@@ -15,8 +15,6 @@ public class MainDAOAlumnoCancelarExamen {
 		
 		alumno = alumnodao.obtenerAlumno(5);
 		mesa = mesadao.obtenerMesaExamen(2);
-		
-		alumnodao.cancelarExamen(alumno, mesa);
 
 	}
 

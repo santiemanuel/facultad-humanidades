@@ -22,6 +22,24 @@ public class AlumnoDAO {
 		 
 	}
 	
+	public Integer nuevaLu() {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_MAX_LU);
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			if (rs.next()) {
+				return (rs.getInt("alumno_lu") + 1);
+			}
+			pstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
+	
 	public Byte obtenerNota(Alumno alumno, Examen examen) {
 		
 		DbConnection conn = new DbConnection();
@@ -203,6 +221,25 @@ public class AlumnoDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Integer alumnoPorLu(Integer lu) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.ALUMNO_POR_LU);
+			pstmt.setInt(1, lu);
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			if (rs.next()) {
+				return (rs.getInt("alumno_id"));
+			}
+			pstmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
 	}
 	
 	public void agregarAlumno(Alumno alumno) {

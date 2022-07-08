@@ -9,8 +9,10 @@ public class SqlQueries {
 		public static String DELETE_ALUMNO = "DELETE FROM alumnos WHERE alumno_id = ?";
 		public static String UPDATE_ALUMNO = "UPDATE alumnos SET alumno_lu = ?, alumno_nombre = ?, alumno_apellido = ? WHERE alumno_id = ?";
 		public static String GET_ONE_ALUMNO = "SELECT * FROM alumnos WHERE alumno_id = ?";
+		public static String ALUMNO_POR_LU = "SELECT alumno_id FROM alumnos WHERE alumno_lu = ?";
 		public static String GET_ALUMNO_USUARIO = "SELECT * FROM alumnos WHERE id_usuario = ?";
 		public static String GET_ALL_ALUMNO = "SELECT * FROM alumnos";
+		public static String GET_MAX_LU = "SELECT (MAX(a.alumno_lu)) alumno_lu from alumnos a";
 		
 		public static String INSERT_AXC = "INSERT INTO alumnosxcarreras (alumno_id, carrera_id) ";
 		public static String INSERT_DETMAT = "INSERT INTO detallesmaterias (alumno_id, materia_id) ";

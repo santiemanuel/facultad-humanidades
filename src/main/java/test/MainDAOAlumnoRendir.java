@@ -16,8 +16,6 @@ public class MainDAOAlumnoRendir {
 		alumno = alumnodao.obtenerAlumno(5);
 		mesa = mesadao.obtenerMesaExamen(2);
 		
-		alumnodao.rendirExamen(alumno, mesa, 7);
-
 	}
 
 }

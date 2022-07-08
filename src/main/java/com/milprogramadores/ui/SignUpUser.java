@@ -18,6 +18,8 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import com.milprogramadores.dao.DAOManager;
+import com.milprogramadores.model.Credencial;
 import com.milprogramadores.model.Usuario;
 
 public class SignUpUser extends JDialog {
@@ -27,6 +29,7 @@ public class SignUpUser extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
+	private DAOManager dao = new DAOManager();
 	private JTextField textFieldEmail;
 	private JTextField textFieldPassword;
 	private JTextField textFieldRepPassword;
@@ -108,6 +111,8 @@ public class SignUpUser extends JDialog {
 				
 				Usuario usuario = new Usuario();
 				Boolean validEmail = usuario.setEmail_usuario(email);
+				usuario.setRol_admin(false);
+				
 				if (!validEmail) {
 					JOptionPane.showMessageDialog(null, "El correo electrónico no es válido", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -118,6 +123,25 @@ public class SignUpUser extends JDialog {
 					return;
 				}
 				
+				Usuario data = dao.getUsuarioDAO().usuarioPorCorreo(email);
+				
+				if (data == null) {
+					
+					dao.getUsuarioDAO().agregarUsuario(usuario);
+					Usuario userDeBase = dao.getUsuarioDAO().usuarioPorCorreo(email);
+					
+					Credencial credencial = new Credencial();
+					credencial.setSalt_and_hash(pass);
+					dao.getCredencialDAO().agregarCredencial(credencial, userDeBase);
+					
+					SignUpStudent screen = new SignUpStudent(userDeBase);
+					screen.setVisible(true);
+					dispose();
+				} else
+				{
+					JOptionPane.showMessageDialog(null, "El usuario ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 			}
 			
 		});
