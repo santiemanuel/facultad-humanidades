@@ -26,6 +26,10 @@ import com.milprogramadores.tablemodel.CarreraTableModel;
 
 public class SelectCareer extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private DAOManager dao = new DAOManager();
 

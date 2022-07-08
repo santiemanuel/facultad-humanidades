@@ -4,11 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +25,10 @@ import com.milprogramadores.model.Usuario;
 
 public class LoginDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField emailField;
 	private JPasswordField passwordField;
@@ -99,7 +101,7 @@ public class LoginDialog extends JDialog {
 				 
 				Usuario usuario = dao.getUsuarioDAO().usuarioPorCorreo(correo);
 				
-				usuario.getRol_admin();
+				//usuario.getRol_admin();
 				
 				if (usuario == null)
 					JOptionPane.showMessageDialog(panel, "El usuario no está registrado", "Error", JOptionPane.ERROR_MESSAGE);

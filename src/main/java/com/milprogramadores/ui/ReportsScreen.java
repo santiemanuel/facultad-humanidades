@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,7 +22,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.milprogramadores.model.Alumno;
 
-public class MainWindow extends JFrame {
+public class ReportsScreen extends JFrame {
 
 	/**
 	 * 
@@ -31,10 +30,10 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	public MainWindow(final Alumno alumno) {
+	public ReportsScreen(final Alumno alumno) {
 		setTitle("Facultad de Humanidades");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 520, 400);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 400, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -55,19 +54,30 @@ public class MainWindow extends JFrame {
 		contentPane.add(panel_1, BorderLayout.CENTER);
 		{
 			panel_1.setLayout(new FormLayout(new ColumnSpec[] {
-					FormSpecs.RELATED_GAP_COLSPEC,
 					FormSpecs.DEFAULT_COLSPEC,
 					FormSpecs.RELATED_GAP_COLSPEC,
 					FormSpecs.DEFAULT_COLSPEC,
 					FormSpecs.RELATED_GAP_COLSPEC,
 					FormSpecs.DEFAULT_COLSPEC,
 					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,
+					ColumnSpec.decode("max(185dlu;default)"),
 					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,
+					ColumnSpec.decode("max(17dlu;default)"),
 					FormSpecs.RELATED_GAP_COLSPEC,
-					FormSpecs.DEFAULT_COLSPEC,},
+					ColumnSpec.decode("max(67dlu;default)"),},
 				new RowSpec[] {
+					FormSpecs.RELATED_GAP_ROWSPEC,
+					FormSpecs.DEFAULT_ROWSPEC,
+					FormSpecs.RELATED_GAP_ROWSPEC,
+					FormSpecs.DEFAULT_ROWSPEC,
+					FormSpecs.RELATED_GAP_ROWSPEC,
+					FormSpecs.DEFAULT_ROWSPEC,
+					FormSpecs.RELATED_GAP_ROWSPEC,
+					FormSpecs.DEFAULT_ROWSPEC,
+					FormSpecs.RELATED_GAP_ROWSPEC,
+					FormSpecs.DEFAULT_ROWSPEC,
+					FormSpecs.RELATED_GAP_ROWSPEC,
+					FormSpecs.DEFAULT_ROWSPEC,
 					FormSpecs.RELATED_GAP_ROWSPEC,
 					FormSpecs.DEFAULT_ROWSPEC,
 					FormSpecs.RELATED_GAP_ROWSPEC,
@@ -81,45 +91,28 @@ public class MainWindow extends JFrame {
 					FormSpecs.RELATED_GAP_ROWSPEC,
 					FormSpecs.DEFAULT_ROWSPEC,}));
 		};
-				
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setIcon(new ImageIcon("images/image.png"));
-		lblLogo.setVerticalTextPosition(JLabel.BOTTOM);
-		lblLogo.setVerticalTextPosition(JLabel.CENTER);
 		
-		panel_1.add(lblLogo, "8, 2");
+
+		JButton btnHistory = new JButton("Ver Historial Académico");
+		panel_1.add(btnHistory, "7, 16");
 		
-		JButton btnCareers = new JButton("Mis Carreras");
-		panel_1.add(btnCareers, "4, 12");
-		
-		btnCareers.addActionListener(new ActionListener() {
+		btnHistory.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				CareerScreen screen = new CareerScreen(alumno);
-				screen.setVisible(true);
-			}
-		});
-			
-		JButton btnReports = new JButton("Reportes");
-		panel_1.add(btnReports, "8, 12");
-		
-		btnReports.addActionListener(new ActionListener() {
 
-			
-			public void actionPerformed(ActionEvent e) {
-				ReportsScreen screen = new ReportsScreen(alumno);
-				screen.setVisible(true);
 			}
 		});
 		
-		JButton btnExams = new JButton("Exámenes");
-		panel_1.add(btnExams, "12, 12");
+		JButton btnCertRegular = new JButton("Certificado Alumno Regular");
+		panel_1.add(btnCertRegular, "7, 20");
+		
+		JButton btnExams = new JButton("Generar Estado Curricular");
+		panel_1.add(btnExams, "7, 24");
 		
 		btnExams.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				ExamScreen screen = new ExamScreen(alumno);
-				screen.setVisible(true);
+
 			}
 			
 		});
@@ -138,5 +131,6 @@ public class MainWindow extends JFrame {
 		
 		setLocationRelativeTo(null);
 	}
+
 
 }

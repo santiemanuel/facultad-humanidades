@@ -17,6 +17,10 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class SignUpStudent extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textFieldLu;
 	private JTextField textFieldName;

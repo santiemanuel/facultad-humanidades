@@ -71,7 +71,6 @@ public class WelcomeScreen extends JFrame {
 		JButton btnLogin = new JButton("Iniciar Sesión");
 		panel_1.add(btnLogin, "cell 1 5");
 		
-		
 		btnLogin.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -83,6 +82,17 @@ public class WelcomeScreen extends JFrame {
 		});
 
 		JButton btnSignUp = new JButton("Registrarse");
+		
+		btnSignUp.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				SignUpUser dialog = new SignUpUser();
+				dialog.setVisible(true);
+			}}
+		);
+		
 		panel_1.add(btnSignUp, "cell 11 5");
 		
 		setLocationRelativeTo(null);

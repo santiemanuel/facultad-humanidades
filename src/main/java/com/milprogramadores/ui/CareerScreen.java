@@ -1,7 +1,6 @@
 package com.milprogramadores.ui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -26,6 +25,10 @@ import com.milprogramadores.tablemodel.CarreraTableModel;
 
 public class CareerScreen extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	JTable table;
 	CarreraTableModel tablemodel;

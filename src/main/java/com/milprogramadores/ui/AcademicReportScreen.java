@@ -22,6 +22,10 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class AcademicReportScreen extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**

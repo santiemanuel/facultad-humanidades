@@ -1,7 +1,6 @@
 package com.milprogramadores.ui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -30,14 +29,16 @@ import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Examen;
 import com.milprogramadores.model.MesaExamen;
 import com.milprogramadores.tablemodel.AlumnoExamenTableModel;
-import com.milprogramadores.tablemodel.CarreraTableModel;
 
-import java.awt.FlowLayout;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 
 public class ExamScreen extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
 	private AlumnoExamenTableModel tablemodel;
