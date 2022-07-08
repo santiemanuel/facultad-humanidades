@@ -25,6 +25,7 @@ public class SqlQueries {
 	/*
 	 * Consultas DAO Carrera
 	 */
+		public static String CARERRA_EXISTE = "SELECT carrera_id FROM carreras WHERE carrera_nombre = ?";
 		public static String INSERT_CARRERA = "INSERT INTO carreras VALUES ( default, ? )";
 		public static String DELETE_CARRERA = "DELETE FROM carreras WHERE carrera_id = ?";
 		public static String UPDATE_CARRERA = "UPDATE carreras SET carrera_nombre = ?";

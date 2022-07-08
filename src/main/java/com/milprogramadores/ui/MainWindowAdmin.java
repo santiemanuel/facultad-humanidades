@@ -23,6 +23,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
+import com.milprogramadores.model.Usuario;
 
 public class MainWindowAdmin extends JFrame {
 
@@ -33,7 +34,7 @@ public class MainWindowAdmin extends JFrame {
 	private JPanel contentPane;
 	public static DAOManager dao;
 		
-	public MainWindowAdmin(final Alumno alumno) {
+	public MainWindowAdmin(Usuario usuario) {
 		setResizable(false);
 		setTitle("Facultad de Humanidades");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,7 +48,7 @@ public class MainWindowAdmin extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblName = new JLabel("Administrador: ");
+		JLabel lblName = new JLabel("Usuario Administrador");
 		panel.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");
@@ -96,14 +97,11 @@ public class MainWindowAdmin extends JFrame {
 		btnCareers.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				CareerScreen screen = new CareerScreen(alumno);
+				CareerScreen screen = new CareerScreen(null, usuario);
 				screen.setVisible(true);
 			}
 			
 		});
-		
-		btnCareers.setVisible(false);
-		
 		
 		JButton btnReports = new JButton("Reportes");
 		panel_1.add(btnReports, "8, 12");

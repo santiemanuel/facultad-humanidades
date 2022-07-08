@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Carrera;
+import com.milprogramadores.model.Usuario;
 import com.milprogramadores.tablemodel.CarreraTableModel;
 
 public class CareerScreen extends JFrame {
@@ -33,7 +34,7 @@ public class CareerScreen extends JFrame {
 	JTable table;
 	CarreraTableModel tablemodel;
 
-	public CareerScreen(final Alumno alumno) {
+	public CareerScreen(final Alumno alumno, final Usuario usuario) {
 		setTitle("Carreras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 400);
@@ -64,15 +65,18 @@ public class CareerScreen extends JFrame {
 		JPanel panel_Flow_Career = new JPanel();
 		panel_Oper_Career.add(panel_Flow_Career, BorderLayout.WEST);
 		
-		JButton btnAddCareer = new JButton("Inscripci\u00F3n a Carrera");
+		JButton btnAddCareer = new JButton("Inscripción a Carrera");
 		panel_Flow_Career.add(btnAddCareer);
+		
+		if (usuario.getRol_admin())
+			btnAddCareer.setText("Crear Nueva Carrera");
 		
 		btnAddCareer.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				SelectCareer selector = new SelectCareer(CareerScreen.this, alumno);
-				selector.setVisible(true);			
+				InsertCareer dialog = new InsertCareer();
+				dialog.setVisible(true);
 			}
 			
 		});
@@ -126,7 +130,10 @@ public class CareerScreen extends JFrame {
 		
 		table = new JTable();
 		tablemodel = new CarreraTableModel();
-		tablemodel.updateModel(alumno);
+		if (usuario.getRol_admin())
+			tablemodel.updateModel();
+		else
+			tablemodel.updateModel(alumno);
 		table.setModel(tablemodel);
 		
 		JScrollPane scrollPane = new JScrollPane();

@@ -197,4 +197,23 @@ public class CarreraDAO {
 		}
 	}
 	
+	public Boolean existeCarrera(String nombre) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.CARERRA_EXISTE);
+			pstmt.setString(1, nombre);	
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			if(rs.next()) {
+				return true;
+			}
+			conn.disconnect();		
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 }

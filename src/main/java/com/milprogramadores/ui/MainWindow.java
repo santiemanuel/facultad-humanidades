@@ -22,6 +22,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.milprogramadores.model.Alumno;
+import com.milprogramadores.model.Usuario;
 
 public class MainWindow extends JFrame {
 
@@ -95,7 +96,7 @@ public class MainWindow extends JFrame {
 		btnCareers.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				CareerScreen screen = new CareerScreen(alumno);
+				CareerScreen screen = new CareerScreen(alumno, null);
 				screen.setVisible(true);
 			}
 		});
