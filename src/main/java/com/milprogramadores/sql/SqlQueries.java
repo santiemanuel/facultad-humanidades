@@ -88,8 +88,13 @@ public class SqlQueries {
 	 * Consultas DAO Examen
 	 */
 	
-		public static String COND_MAT_CARRERA = "mxc.materia_id = ? and mxc.carrera_id = ? ";
+		public static String MXC_FECHA = "SELECT mesa_examen_id FROM mesas_examen WHERE mxc_id =? and fecha = ?";
+		public static String COND_MAT_CARRERA = "materia_id = ? and carrera_id = ? ";
 		public static String MXC_ID = "SELECT mxc_id from materiasxcarreras mxc WHERE " + COND_MAT_CARRERA;
+		public static String MX_ID_MESA = "SELECT me.mxc_id from mesas_examen me " 
+										+ "INNER JOIN materiasxcarreras mxc "
+										+ "ON mxc.mxc_id = me.mxc_id "
+										+ "WHERE mxc.materia_id = ? and mxc.carrera_id = ?";
 		public static String INSERT_EXAMEN = "INSERT INTO mesas_examen VALUES ( default, ?, (" + MXC_ID + ") )";
 		public static String DELETE_EXAMEN = "DELETE FROM mesas_examen WHERE mesa_examen_id = ?";
 		public static String UPDATE_EXAMEN = "UPDATE mesas_examen SET fecha = ?, mxc_id = ( " + MXC_ID + ") WHERE mesa_examen_id = ?";

@@ -32,22 +32,6 @@ public class InsertSubject extends JDialog {
 	private JTextField textFieldCareer;
 	DAOManager dao = new DAOManager();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			InsertCareer dialog = new InsertCareer();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public InsertSubject(final SubjectScreen screen, Carrera carrera) {
 		setTitle("Nueva Materia");
 		setBounds(100, 100, 450, 150);

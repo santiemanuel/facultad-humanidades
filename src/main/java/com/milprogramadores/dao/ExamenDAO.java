@@ -96,6 +96,49 @@ public class ExamenDAO {
 		return materiasId;
 	}
 	
+	public Boolean buscarMxcFecha(int mxc_id, java.sql.Date fecha) {
+		
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.MXC_FECHA);
+			pstmt.setInt(1, mxc_id);
+			pstmt.setDate(2, fecha);
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			if (rs.next()) {
+				return true;
+			}
+			rs.close();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public Integer buscarMesaMxc(Materia materia, Carrera carrera) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.MX_ID_MESA);
+			pstmt.setInt(1, materia.getMateria_id());
+			pstmt.setInt(2, carrera.getCarrera_id());
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			if (rs.next()) {
+				return rs.getInt("mxc_id");
+			}
+			rs.close();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 	public void agregarMesaExamen(MesaExamen mesa, Materia materia, Carrera carrera) {
 		DbConnection conn = new DbConnection();
 		

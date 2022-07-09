@@ -170,10 +170,13 @@ public class ExamScreen extends JFrame {
 		JComboBox<String> comboBox = new JComboBox<String>();
 		if (!usuario.getRol_admin()) {
 			carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
-			for (Carrera c: carreras) {
-				combomodel.addElement(c.getNombre());
-			};
+		} else {
+			carreras = dao.getCarreraDAO().listarCarreras();
 		}
+		
+		for (Carrera c: carreras) {
+			combomodel.addElement(c.getNombre());
+		};
 		
 		comboBox.setModel(combomodel);
 		comboBox.setRenderer(new PromptComboBoxRenderer("Seleccione carrera"));

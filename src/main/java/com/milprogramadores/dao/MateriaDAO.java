@@ -16,6 +16,27 @@ public class MateriaDAO {
 			 
 		}
 		
+		public Boolean existeMxc(Materia materia, Carrera carrera) {
+			DbConnection conn = new DbConnection();
+			
+			try {
+				PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.MXC_ID);
+				pstmt.setInt(1, materia.getMateria_id());
+				pstmt.setInt(2, carrera.getCarrera_id());
+				pstmt.execute();
+				ResultSet rs = pstmt.getResultSet();
+				if (rs.next())
+					return true;
+				rs.close();
+				pstmt.close();
+				conn.disconnect();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return false;
+		}
+		
 		public ArrayList<Materia> materiasFaltantes(int alumno_id, int carrera_id){
 			ArrayList<Materia> materias = new ArrayList<Materia>();
 			
