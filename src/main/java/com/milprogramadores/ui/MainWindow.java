@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
 	private Alumno alumno = new Alumno();
 	private DAOManager dao = new DAOManager();
 	private JPanel contentPane;
-	public static LocalDate today = LocalDate.of(2022, 7, 10);
+	public static LocalDate today = LocalDate.of(2022, 7, 11);
 
 	public MainWindow(final Usuario usuario) {
 		if (!usuario.getRol_admin())

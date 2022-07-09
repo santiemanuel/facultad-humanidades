@@ -60,7 +60,7 @@ public class AlumnoDAO {
 		return -1;
 	}
 	
-	public ArrayList<Historial> historialExamenes(Alumno alumno) {
+	public ArrayList<Historial> historialExamenes(Alumno alumno, LocalDate today) {
 		DbConnection conn = new DbConnection();
 		ArrayList<Historial> examenes = new ArrayList<Historial>();
 		
@@ -71,11 +71,15 @@ public class AlumnoDAO {
 			ResultSet rs = pstmt.getResultSet();
 			
 			while(rs.next()) {
+				LocalDate fechaExamen = rs.getDate("fecha").toLocalDate();
+				if (today.compareTo(fechaExamen) <= 0)
+					continue;
+				
 				Historial entrada = new Historial();
 				entrada.setExamen_id(rs.getInt("examen_id"));
 				entrada.setCarrera_nombre(rs.getString("carrera_nombre"));
 				entrada.setMateria_nombre(rs.getString("materia_nombre"));
-				entrada.setFecha(rs.getDate("fecha").toLocalDate());
+				entrada.setFecha(fechaExamen);
 				entrada.setNota(rs.getByte("nota"));
 				examenes.add(entrada);
 			}

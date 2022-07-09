@@ -69,11 +69,9 @@ public class HistoryScreen extends JFrame {
 		JPanel panel_Flow_Career = new JPanel();
 		panel_Oper_Career.add(panel_Flow_Career, BorderLayout.WEST);
 	
-		SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");
-				
+		SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");				
 		Instant instant = Instant.from(MainWindow.today.atStartOfDay(ZoneId.of("GMT-3")));
-					 
-		String format = formatFecha.format(Date.from(instant)); 
+		String format = formatFecha.format(Date.from(instant));
 				
 		lblDate.setText("Fecha: " + format);
 		

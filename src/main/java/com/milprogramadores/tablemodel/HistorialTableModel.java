@@ -10,6 +10,7 @@ import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Historial;
 import com.milprogramadores.model.Usuario;
+import com.milprogramadores.ui.MainWindow;
 
 public class HistorialTableModel extends AbstractTableModel {
 
@@ -17,7 +18,7 @@ public class HistorialTableModel extends AbstractTableModel {
 	public static final int OBJECT_COL = -1;
 	private DAOManager dao = new DAOManager();
     private List<Historial> examenes = new ArrayList<Historial>();
-    private LocalDate today;
+    private LocalDate today = MainWindow.today;
     
 
     public HistorialTableModel() {
@@ -31,14 +32,13 @@ public class HistorialTableModel extends AbstractTableModel {
     	} else {
     		
     	}
-    	this.setToday(fecha);
     	
     }
     
     public void updateModel(Usuario usuario) {
     	if (!usuario.getRol_admin()) {
     		Alumno alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
-    		examenes = dao.getAlumnoDAO().historialExamenes(alumno);
+    		examenes = dao.getAlumnoDAO().historialExamenes(alumno, today);
     	} else {
     		
     	}
