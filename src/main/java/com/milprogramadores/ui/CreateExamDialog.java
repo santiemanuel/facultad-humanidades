@@ -32,6 +32,7 @@ import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Materia;
 import com.milprogramadores.model.MesaExamen;
+import com.milprogramadores.tablemodel.AlumnoExamenTableModel;
 
 public class CreateExamDialog extends JDialog {
 
@@ -47,7 +48,7 @@ public class CreateExamDialog extends JDialog {
 	private DAOManager dao = new DAOManager();
 	private JTextField textFieldDate;
 
-	public CreateExamDialog() {
+	public CreateExamDialog(ExamScreen screen) {
 		setTitle("Crear Mesa");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -166,7 +167,10 @@ public class CreateExamDialog extends JDialog {
 					MesaExamen mesa = new MesaExamen();
 					mesa.setFecha(fechaSql.toLocalDate());
 					dao.getExamenDAO().agregarMesaExamen(mesa, materia, carrera);
-					JOptionPane.showMessageDialog(null, "Mesa creada con éxito", "Error", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Mesa creada con éxito", "Info", JOptionPane.INFORMATION_MESSAGE);
+					screen.tablemodel = new AlumnoExamenTableModel();
+					screen.tablemodel.updateModel(carrera);
+					screen.table.setModel(screen.tablemodel);
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "La mesa ya existe en esta fecha", "Error", JOptionPane.ERROR_MESSAGE);

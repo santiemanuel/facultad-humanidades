@@ -27,6 +27,33 @@ public class ExamenDAO {
 		
 	}
 	
+	public ArrayList<AlumnoExamen> obtenerMesasCarrera(Carrera carrera){
+		ArrayList<AlumnoExamen> examenes = new ArrayList<AlumnoExamen>();
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ALL_MESAS);
+			pstmt.setInt(1, carrera.getCarrera_id());
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			while(rs.next()) {
+				AlumnoExamen examen = new AlumnoExamen();
+				examen.setMesa_examen_id(rs.getInt("mesa_examen_id"));
+				examen.setMateria_nombre(rs.getString("materia_nombre"));
+				examen.setFecha(rs.getDate("fecha").toLocalDate());
+				examenes.add(examen);
+			}
+			rs.close();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return examenes;
+	}
+	
 	public ArrayList<AlumnoExamen> examenesCompatibles(ArrayList<Integer> materias_id){
 		ArrayList<AlumnoExamen> examenesAlumno = new ArrayList<AlumnoExamen>();
 		

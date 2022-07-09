@@ -122,6 +122,15 @@ public class SqlQueries {
 												"INNER JOIN carreras c " +
 												"ON mxc1.carrera_id = c.carrera_id " +
 												"WHERE me.mxc_id in (%s)";
+		public static String GET_ALL_MESAS = "SELECT me.mesa_examen_id, m.materia_nombre, " +
+												"me.fecha FROM mesas_examen me " +
+												"INNER JOIN materiasxcarreras mxc1 " +
+												"ON	me.mxc_id = mxc1.mxc_id " +
+												"INNER JOIN materias m " +
+												"ON mxc1.materia_id = m.materia_id " + 
+												"INNER JOIN carreras c " +
+												"ON mxc1.carrera_id = c.carrera_id " +
+												"WHERE c.carrera_id = ?";
 	/*
 	 * Consultas DAO Materia
 	 */

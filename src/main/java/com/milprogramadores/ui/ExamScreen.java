@@ -40,9 +40,9 @@ public class ExamScreen extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable table;
+	JTable table;
 	private Alumno alumno = new Alumno();
-	private AlumnoExamenTableModel tablemodel;
+	AlumnoExamenTableModel tablemodel;
 	private DAOManager dao = new DAOManager();
 	ArrayList<Carrera> carreras = new ArrayList<Carrera>();
 	DefaultComboBoxModel<String> combomodel = new DefaultComboBoxModel<String>();
@@ -98,7 +98,7 @@ public class ExamScreen extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 					
 			if (usuario.getRol_admin()) {
-				CreateExamDialog dialog = new CreateExamDialog();
+				CreateExamDialog dialog = new CreateExamDialog(ExamScreen.this);
 				dialog.setVisible(true);
 				return;
 			}
@@ -190,6 +190,10 @@ public class ExamScreen extends JFrame {
 					if (!usuario.getRol_admin()) {
 						tablemodel = new AlumnoExamenTableModel();
 						tablemodel.updateModel(alumno, carreras.get(index));
+						table.setModel(tablemodel);
+					} else {
+						tablemodel = new AlumnoExamenTableModel();
+						tablemodel.updateModel(carreras.get(index));
 						table.setModel(tablemodel);
 					}
 				}

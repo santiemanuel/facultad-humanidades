@@ -28,6 +28,10 @@ public class AlumnoExamenTableModel extends AbstractTableModel{
     	examenes = dao.getExamenDAO().examenesCompatibles(ids);
     }
     
+    public void updateModel(Carrera carrera) {
+    	examenes = dao.getExamenDAO().obtenerMesasCarrera(carrera);
+    }
+    
 
     public String getColumnName(int columnIndex){
         switch(columnIndex){
