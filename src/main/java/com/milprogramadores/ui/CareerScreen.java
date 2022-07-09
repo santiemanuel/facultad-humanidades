@@ -85,7 +85,7 @@ public class CareerScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if ((usuario.getRol_admin())) {
-					InsertCareer dialog = new InsertCareer();
+					InsertCareer dialog = new InsertCareer(CareerScreen.this);
 					dialog.setVisible(true);
 					return;
 				} else {

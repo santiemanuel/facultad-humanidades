@@ -14,6 +14,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Carrera;
+import com.milprogramadores.tablemodel.CarreraTableModel;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,7 +30,7 @@ public class InsertCareer extends JDialog {
 	private JTextField textFieldCareer;
 	DAOManager dao = new DAOManager();
 
-	public InsertCareer() {
+	public InsertCareer(CareerScreen screen) {
 		setTitle("Nueva carrera");
 		setBounds(100, 100, 450, 150);
 		getContentPane().setLayout(new BorderLayout());
@@ -67,19 +68,22 @@ public class InsertCareer extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String nombre = textFieldCareer.getText();
 				if (nombre.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de carrera", "Error", JOptionPane.ERROR);
+					JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de carrera", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 					
 				Boolean careerExists = dao.getCarreraDAO().existeCarrera(nombre);
 				if (careerExists) {
-					JOptionPane.showMessageDialog(null, "La carrera ya existe.", "Error", JOptionPane.ERROR);
+					JOptionPane.showMessageDialog(null, "La carrera ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				Carrera carrera = new Carrera();
 				carrera.setNombre(nombre);
 				dao.getCarreraDAO().agregarCarrera(carrera);
 				JOptionPane.showMessageDialog(null, "Carrera creada con éxito.", "Completado", JOptionPane.INFORMATION_MESSAGE);
+				screen.tablemodel = new CarreraTableModel();
+				screen.tablemodel.updateModel();
+				screen.table.setModel(screen.tablemodel);
 				dispose();
 			}
 		});

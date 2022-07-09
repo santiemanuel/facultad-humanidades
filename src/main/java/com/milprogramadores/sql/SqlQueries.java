@@ -135,7 +135,8 @@ public class SqlQueries {
 	 * Consultas DAO Materia
 	 */
 		public static String MATERIA_NOMBRE = "SELECT * FROM materias WHERE materia_nombre = ?";
-		public static String MXC_EXISTE = "SELECT * FROM materiasxcarreras mxc WHERE materia_nombre = ? and carrera_nombre = ?";
+		public static String MXC_EXISTE = "SELECT * FROM materiasxcarreras mxc " +
+										"WHERE materia_id = ? AND carrera_id =? ";
 		public static String MATERIA_EXISTE = "SELECT materia_id FROM materias WHERE materia_nombre = ?";
 		public static String INSERT_MATERIA = "INSERT INTO materias VALUES ( default, ? )";
 		public static String DELETE_MATERIA = "DELETE FROM materias WHERE materia_id = ?";

@@ -118,7 +118,7 @@ public class SelectSubject extends JDialog {
 						screen.table.setModel(screen.tablemodel);
 						dispose();
 					} else {
-						JOptionPane.showMessageDialog(null, "La materia ya existe en esta carrera.", "Error", JOptionPane.ERROR);
+						JOptionPane.showMessageDialog(null, "La materia ya existe en esta carrera.", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 					
 				}

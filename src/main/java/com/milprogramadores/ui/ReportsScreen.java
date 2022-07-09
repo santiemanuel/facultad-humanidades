@@ -3,14 +3,18 @@ package com.milprogramadores.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -21,6 +25,9 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
+import com.milprogramadores.model.Certificado;
+import com.milprogramadores.model.Historial;
+import com.milprogramadores.model.PdfCreatorHistorial;
 import com.milprogramadores.model.Usuario;
 
 public class ReportsScreen extends JFrame {
@@ -134,7 +141,18 @@ public class ReportsScreen extends JFrame {
 		btnExams.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
+				JFileChooser saveFile = new JFileChooser();
+				saveFile.showSaveDialog(null);
+				File file = saveFile.getSelectedFile();
+				
+				Certificado cert = new Certificado();
+				ArrayList<Historial> historial = dao.getAlumnoDAO().historialExamenes(alumno, MainWindow.today);
+				cert.generarEstadoCurricular(historial);
+				
+				PdfCreatorHistorial pdfFile = new PdfCreatorHistorial(cert, alumno, file);
+				pdfFile.createPdf();
+				JOptionPane.showMessageDialog(null, "Certificado de estado curricular creado con éxito", "Info", JOptionPane.INFORMATION_MESSAGE);
+				dispose();
 			}
 			
 		});

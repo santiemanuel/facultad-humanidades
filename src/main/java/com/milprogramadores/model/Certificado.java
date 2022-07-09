@@ -7,9 +7,14 @@ public class Certificado {
 	
 	private String descRegular = "Se certifica que %s %s esta inscripto(/a) como alumno(/a) regular en la propuesta de %s, legajo Nro: %s. A su pedido y para su presentación ante %s se le extiende la presente en SALTA, Salta a los %s.";;
 	private List<String> params = new ArrayList<String>();
+	private List<Historial> estadoCurricular = new ArrayList<Historial>();
 	
 	public Certificado(List<String> params) {
 		this.params = params;
+	}
+	
+	public Certificado() {
+		
 	}
 	
 	public String generarAlumnoRegular() {
@@ -17,8 +22,8 @@ public class Certificado {
 		return format;
 	}
 	
-	public void generarEstadoCurricular() {
-		
+	public void generarEstadoCurricular(ArrayList<Historial> estadoCurricular) {
+		this.estadoCurricular = estadoCurricular;
 	}
 
 	public String getDescRegular() {
@@ -35,6 +40,14 @@ public class Certificado {
 
 	public void setParams(List<String> params) {
 		this.params = params;
+	}
+
+	public List<Historial> getEstadoCurricular() {
+		return estadoCurricular;
+	}
+
+	public void setEstadoCurricular(List<Historial> estadoCurricular) {
+		this.estadoCurricular = estadoCurricular;
 	}
 
 }

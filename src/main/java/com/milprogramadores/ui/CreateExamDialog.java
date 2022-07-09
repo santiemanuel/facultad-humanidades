@@ -114,6 +114,8 @@ public class CreateExamDialog extends JDialog {
 		contentPanel.add(lblNewLabel_2, "2, 8, right, default");
 
 		textFieldDate = new JTextField();
+		textFieldDate.setText("dd/mm/aaaa");
+		textFieldDate.setToolTipText("");
 		contentPanel.add(textFieldDate, "4, 8, fill, default");
 		textFieldDate.setColumns(10);
 

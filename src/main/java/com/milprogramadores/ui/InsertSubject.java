@@ -70,14 +70,14 @@ public class InsertSubject extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String nombre = textFieldCareer.getText();
 				if (nombre.length() == 0) {
-					JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de materia", "Error", JOptionPane.ERROR);
+					JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de materia", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
 				Boolean subjectExists = dao.getMateriaDAO().existeMateria(nombre);
 				
 				if (subjectExists) {
-					JOptionPane.showMessageDialog(null, "La materia ya existe.", "Error", JOptionPane.ERROR);
+					JOptionPane.showMessageDialog(null, "La materia ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				Materia materia = new Materia();
