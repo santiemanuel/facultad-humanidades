@@ -42,27 +42,31 @@ public class ExamScreen extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
+	private Alumno alumno = new Alumno();
 	private AlumnoExamenTableModel tablemodel;
 	private DAOManager dao = new DAOManager();
 	ArrayList<Carrera> carreras = new ArrayList<Carrera>();
 	DefaultComboBoxModel<String> combomodel = new DefaultComboBoxModel<String>();
 	
-	public ExamScreen(final Alumno alumno, final Usuario usuario) {
+	public ExamScreen(final Usuario usuario) {
 		
-	  setTitle("Inscripción a Examen");
-	  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	  setBounds(100, 100, 520, 400);
-	  contentPane = new JPanel();
-	  contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-	  setContentPane(contentPane);
-	  contentPane.setLayout(new BorderLayout(0, 0));
+		if (!usuario.getRol_admin()) 
+			alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
 			
-	  JPanel panel_Top = new JPanel();
+		setTitle("Inscripción a Examen");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 520, 400);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+			
+		JPanel panel_Top = new JPanel();
 	  contentPane.add(panel_Top, BorderLayout.NORTH);
 	  panel_Top.setLayout(new BorderLayout(0, 0));
 			
 	  JLabel lblName = new JLabel("Alumno: ");
-	  if (usuario == null)
+	  if (!usuario.getRol_admin())
 		  lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
 	  else
 		  lblName.setText("Usuario Administrador");
@@ -94,7 +98,7 @@ public class ExamScreen extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			if (alumno == null) {
+			if (usuario.getRol_admin()) {
 				CreateExamDialog dialog = new CreateExamDialog();
 				dialog.setVisible(true);
 				return;
@@ -167,8 +171,8 @@ public class ExamScreen extends JFrame {
 	  panel_Label_Selector.add(lblSelectCareer);
 	  
 	  JComboBox<String> comboBox = new JComboBox<String>();
-	  if (usuario == null) {
-		  ArrayList<Carrera> carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
+	  if (!usuario.getRol_admin()) {
+		  carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
 		  for (Carrera c: carreras) {
 				combomodel.addElement(c.getNombre());
 		  };
@@ -180,7 +184,7 @@ public class ExamScreen extends JFrame {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
 				@SuppressWarnings("unchecked")
 				Integer index = ((JComboBox<String>) e.getSource()).getSelectedIndex();
-				if (usuario == null) {
+				if (!usuario.getRol_admin()) {
 					tablemodel = new AlumnoExamenTableModel();
 					tablemodel.updateModel(alumno, carreras.get(index));
 					table.setModel(tablemodel);
@@ -195,7 +199,7 @@ public class ExamScreen extends JFrame {
 		
 	  panel_Selector_Table.add(scrollPane, BorderLayout.CENTER);
 	  
-	  if (usuario == null) {
+	  if (!usuario.getRol_admin()) {
 		  comboBox.setModel(combomodel);
 		  comboBox.setSelectedIndex(0); 
 	  }

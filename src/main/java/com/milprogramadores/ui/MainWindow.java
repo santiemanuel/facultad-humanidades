@@ -21,6 +21,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Usuario;
 
@@ -30,9 +31,13 @@ public class MainWindow extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Alumno alumno = new Alumno();
+	private DAOManager dao = new DAOManager();
 	private JPanel contentPane;
 
-	public MainWindow(final Alumno alumno) {
+	public MainWindow(final Usuario usuario) {
+		if (!usuario.getRol_admin())
+			alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
 		setTitle("Facultad de Humanidades");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 520, 400);
@@ -98,7 +103,7 @@ public class MainWindow extends JFrame {
 		btnCareers.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				CareerScreen screen = new CareerScreen(alumno, null);
+				CareerScreen screen = new CareerScreen(usuario);
 				screen.setVisible(true);
 			}
 		});
@@ -121,7 +126,7 @@ public class MainWindow extends JFrame {
 		btnExams.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				ExamScreen screen = new ExamScreen(alumno, null);
+				ExamScreen screen = new ExamScreen(usuario);
 				screen.setVisible(true);
 			}
 			

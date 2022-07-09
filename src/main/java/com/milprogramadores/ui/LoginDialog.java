@@ -108,17 +108,10 @@ public class LoginDialog extends JDialog {
 				{
 					Credencial credencial = dao.getCredencialDAO().credencialUsuario(usuario.getId_usuario());
 					if (credencial.checkPassword(pass)) {
-						if (!usuario.getRol_admin()) {
-							Alumno alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
-							MainWindow frame = new MainWindow(alumno);
-							frame.setVisible(true);
-							dispose();
-							return;
-						}
-						System.out.println("Ingresando usuario Administrador");
-						MainWindowAdmin frame = new MainWindowAdmin(usuario);
-						frame.setVisible(true);				
+						MainWindow frame = new MainWindow(usuario);
+						frame.setVisible(true);
 						dispose();
+						return;
 					} else {
 						JOptionPane.showMessageDialog(panel, "La contraseña es incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
 					}

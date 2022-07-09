@@ -96,7 +96,7 @@ public class MainWindowAdmin extends JFrame {
 		btnCareers.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				CareerScreen screen = new CareerScreen(null, usuario);
+				CareerScreen screen = new CareerScreen(usuario);
 				screen.setVisible(true);
 			}
 			
@@ -111,7 +111,7 @@ public class MainWindowAdmin extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ExamScreen screen = new ExamScreen(null, usuario);
+				ExamScreen screen = new ExamScreen(usuario);
 				screen.setVisible(true);
 			}
 			

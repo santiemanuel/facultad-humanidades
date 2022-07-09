@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Usuario;
@@ -31,10 +32,14 @@ public class CareerScreen extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private Alumno alumno = new Alumno();
+	private DAOManager dao = new DAOManager();
 	JTable table;
 	CarreraTableModel tablemodel;
 
-	public CareerScreen(final Alumno alumno, final Usuario usuario) {
+	public CareerScreen(Usuario usuario) {
+		if (!usuario.getRol_admin())
+			alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
 		setTitle("Carreras");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 400);
@@ -69,7 +74,7 @@ public class CareerScreen extends JFrame {
 		JButton btnAddCareer = new JButton("Inscripción a Carrera");
 		panel_Flow_Career.add(btnAddCareer);
 		
-		if ((usuario != null)) {
+		if ((usuario.getRol_admin())) {
 			btnAddCareer.setText("Crear Nueva Carrera");
 		}
 			
@@ -78,7 +83,7 @@ public class CareerScreen extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				if ((usuario != null)) {
+				if ((usuario.getRol_admin())) {
 					btnAddCareer.setText("Crear Nueva Carrera");
 					InsertCareer dialog = new InsertCareer();
 					dialog.setVisible(true);
@@ -139,7 +144,7 @@ public class CareerScreen extends JFrame {
 		
 		table = new JTable();
 		tablemodel = new CarreraTableModel();
-		if (usuario != null)
+		if (usuario.getRol_admin())
 			tablemodel.updateModel();
 		else
 			tablemodel.updateModel(alumno);

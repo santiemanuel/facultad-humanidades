@@ -112,11 +112,8 @@ public class SignUpStudent extends JDialog {
 				alumno.setAlumno_apellido(apellido);
 				
 				dao.getAlumnoDAO().agregarAlumno(alumno);
-				
-				Integer id_alumno = dao.getAlumnoDAO().alumnoPorLu(nuevaLu);
-				Alumno alumnoDeBase = dao.getAlumnoDAO().obtenerAlumno(id_alumno);
-				
-				MainWindow frame = new MainWindow(alumnoDeBase);
+								
+				MainWindow frame = new MainWindow(usuario);
 				frame.setVisible(true);
 				dispose();
 				return;
