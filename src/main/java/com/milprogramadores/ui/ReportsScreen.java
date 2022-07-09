@@ -142,7 +142,10 @@ public class ReportsScreen extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser saveFile = new JFileChooser();
-				saveFile.showSaveDialog(null);
+				int result = saveFile.showSaveDialog(null);
+				if (result == JFileChooser.CANCEL_OPTION) {
+					return;
+				}
 				File file = saveFile.getSelectedFile();
 				
 				Certificado cert = new Certificado();

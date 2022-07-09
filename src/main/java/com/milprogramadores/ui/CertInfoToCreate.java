@@ -112,7 +112,11 @@ public class CertInfoToCreate extends JDialog {
 				info.setFecha(MainWindow.today);
 				
 				JFileChooser saveFile = new JFileChooser();
-				saveFile.showSaveDialog(null);
+				int result = saveFile.showSaveDialog(null);
+				
+				if (result == JFileChooser.CANCEL_OPTION) {
+					return;
+				}
 				File file = saveFile.getSelectedFile();
 				
 				ArrayList<String> params = info.getListInfo();
@@ -132,6 +136,14 @@ public class CertInfoToCreate extends JDialog {
 		getRootPane().setDefaultButton(okButton);
 
 		JButton cancelButton = new JButton("Cancelar");
+		
+		cancelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 		
