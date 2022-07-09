@@ -69,6 +69,7 @@ public class SqlQueries {
 													"INNER JOIN carreras c " +
 													"ON c.carrera_id = mxc.carrera_id " +
 													"WHERE c.carrera_nombre = ?";
+		public static String INSERT_MXC = "INSERT INTO materiasxcarreras (materia_id, carrera_id ) VALUES (?, ?) ";
 	
 	/*
 	 * Consulas DAO Credencial
@@ -119,6 +120,9 @@ public class SqlQueries {
 	/*
 	 * Consultas DAO Materia
 	 */
+		public static String MATERIA_NOMBRE = "SELECT * FROM materias WHERE materia_nombre = ?";
+		public static String MXC_EXISTE = "SELECT * FROM materiasxcarreras mxc WHERE materia_nombre = ? and carrera_nombre = ?";
+		public static String MATERIA_EXISTE = "SELECT materia_id FROM materias WHERE materia_nombre = ?";
 		public static String INSERT_MATERIA = "INSERT INTO materias VALUES ( default, ? )";
 		public static String DELETE_MATERIA = "DELETE FROM materias WHERE materia_id = ?";
 		public static String UPDATE_MATERIA = "UPDATE materias SET materia_nombre = ?";
@@ -137,17 +141,23 @@ public class SqlQueries {
 													"ON axc.carrera_id = mxc.carrera_id " +
 													"WHERE a.alumno_id = ? " + 
 													"AND mxc.carrera_id = ?";
-		public static String GET_MATERIAS_FALTANTES = "SELECT m.materia_id, m.materia_nombre FROM materias m " + 
-													"INNER JOIN materiasxcarreras mxc " +
-													"ON m.materia_id = mxc.materia_id " + 
-													"INNER JOIN alumnosxcarreras axc1 ON " +
-													"mxc.carrera_id = axc1.carrera_id WHERE " +
-													"m.materia_id NOT IN ( SELECT dm.materia_id " +
-													"FROM detallesmaterias dm INNER JOIN alumnos a " +
-													"ON dm.alumno_id = a.alumno_id INNER JOIN alumnosxcarreras axc " +
-													"ON a.alumno_id = axc.alumno_id WHERE " +
-													"a.alumno_id = ? AND axc.carrera_id = ?) " +
-													"AND mxc.carrera_id = axc1.carrera_id";
+		public static String GET_MATERIAS_FALTANTES = "SELECT mxc1.materia_id, m1.materia_nombre "
+													+ "FROM materiasxcarreras mxc1 "
+													+ "INNER JOIN materias m1 "
+													+ "ON mxc1.materia_id = m1.materia_id "
+													+ "WHERE mxc1.materia_id NOT IN ("
+													+ "SELECT m.materia_id "
+													+ "FROM detallesmaterias dm "
+													+ "INNER JOIN materias m "
+													+ "ON dm.materia_id = m.materia_id "
+													+ "INNER JOIN alumnos a "
+													+ "ON dm.alumno_id = a.alumno_id "
+													+ "INNER JOIN materiasxcarreras mxc "
+													+ "ON dm.materia_id = mxc.materia_id "
+													+ "INNER JOIN alumnosxcarreras axc "
+													+ "ON axc.carrera_id = mxc.carrera_id "
+													+ "WHERE (dm.alumno_id = ? "
+													+ "AND mxc.carrera_id = ?)) AND mxc1.carrera_id = ?";
 		public static String GET_ALL_MATERIA = "SELECT * FROM materias";
 		public static String GET_CARRERAS_MATERIA = "SELECT * " +
 													"FROM carreras c " +

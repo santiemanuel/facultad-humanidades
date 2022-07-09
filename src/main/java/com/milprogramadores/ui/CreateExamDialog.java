@@ -25,22 +25,6 @@ public class CreateExamDialog extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textFieldDate;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			CreateExamDialog dialog = new CreateExamDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public CreateExamDialog() {
 		setTitle("Crear Mesa");
 		setBounds(100, 100, 450, 300);
@@ -61,47 +45,39 @@ public class CreateExamDialog extends JDialog {
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
-		{
-			JLabel lblExamCareer = new JLabel("Carrera de la mesa: ");
-			contentPanel.add(lblExamCareer, "2, 4, right, default");
-		}
-		{
-			JComboBox comboBoxCareer = new JComboBox();
-			contentPanel.add(comboBoxCareer, "4, 4, fill, default");
-		}
-		{
-			JLabel lblSubjectCareer = new JLabel("Materia de la mesa:");
-			contentPanel.add(lblSubjectCareer, "2, 6, right, default");
-		}
-		{
-			JComboBox comboBoxSubject = new JComboBox();
-			contentPanel.add(comboBoxSubject, "4, 6, fill, default");
-		}
-		{
-			JLabel lblNewLabel_2 = new JLabel("Fecha :");
-			contentPanel.add(lblNewLabel_2, "2, 8, right, default");
-		}
-		{
-			textFieldDate = new JTextField();
-			contentPanel.add(textFieldDate, "4, 8, fill, default");
-			textFieldDate.setColumns(10);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
-		}
+
+		JLabel lblExamCareer = new JLabel("Carrera de la mesa: ");
+		contentPanel.add(lblExamCareer, "2, 4, right, default");
+
+		JComboBox<String> comboBoxCareer = new JComboBox<String>();
+		contentPanel.add(comboBoxCareer, "4, 4, fill, default");
+
+		JLabel lblSubjectCareer = new JLabel("Materia de la mesa:");
+		contentPanel.add(lblSubjectCareer, "2, 6, right, default");
+
+		JComboBox<String> comboBoxSubject = new JComboBox<String>();
+		contentPanel.add(comboBoxSubject, "4, 6, fill, default");
+
+		JLabel lblNewLabel_2 = new JLabel("Fecha :");
+		contentPanel.add(lblNewLabel_2, "2, 8, right, default");
+
+		textFieldDate = new JTextField();
+		contentPanel.add(textFieldDate, "4, 8, fill, default");
+		textFieldDate.setColumns(10);
+
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+		JButton okButton = new JButton("OK");
+		okButton.setActionCommand("OK");
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
+
+		JButton cancelButton = new JButton("Cancelar");
+		cancelButton.setActionCommand("Cancel");
+		buttonPane.add(cancelButton);
+
 		setLocationRelativeTo(null);
 	}
 

@@ -34,6 +34,7 @@ public class MainWindow extends JFrame {
 	private Alumno alumno = new Alumno();
 	private DAOManager dao = new DAOManager();
 	private JPanel contentPane;
+	public static LocalDate today = LocalDate.of(2022, 7, 10);
 
 	public MainWindow(final Usuario usuario) {
 		if (!usuario.getRol_admin())
@@ -50,9 +51,12 @@ public class MainWindow extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblName = new JLabel("Alumno: ");
+		JLabel lblName = new JLabel("");
 		
-		lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+		if (!usuario.getRol_admin())
+			lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+		else
+			lblName.setText("Usuario Administrador");
 		panel.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");
@@ -97,7 +101,7 @@ public class MainWindow extends JFrame {
 		
 		panel_1.add(lblLogo, "8, 2");
 		
-		JButton btnCareers = new JButton("Mis Carreras");
+		JButton btnCareers = new JButton("Carreras");
 		panel_1.add(btnCareers, "4, 12");
 		
 		btnCareers.addActionListener(new ActionListener() {
@@ -115,8 +119,10 @@ public class MainWindow extends JFrame {
 
 			
 			public void actionPerformed(ActionEvent e) {
-				ReportsScreen screen = new ReportsScreen(alumno);
-				screen.setVisible(true);
+				if (!usuario.getRol_admin()) {
+					ReportsScreen screen = new ReportsScreen(usuario);
+					screen.setVisible(true);
+				}
 			}
 		});
 		
@@ -131,8 +137,6 @@ public class MainWindow extends JFrame {
 			}
 			
 		});
-		
-		LocalDate today = LocalDate.of(2022, 12, 6);
 		
 		SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");
 		

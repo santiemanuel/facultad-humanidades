@@ -27,6 +27,11 @@ public class MateriaTableModel extends AbstractTableModel{
     	materias = dao.getMateriaDAO().materiasAlumno(alumno.getAlumno_id(), carrera.getCarrera_id());
     }
     
+    public void updateModel(Carrera carrera) {
+    	materias = dao.getCarreraDAO().materiasDeCarrera(carrera);
+    }
+    
+    
     public void updateModel(){ 
     	materias = dao.getMateriaDAO().listarMaterias();
     }

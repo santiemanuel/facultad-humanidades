@@ -7,7 +7,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -139,7 +138,7 @@ public class ExamScreen extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			MyExamsScreen screen = new MyExamsScreen(alumno);
+			MyExamsScreen screen = new MyExamsScreen(usuario);
 			screen.setVisible(true);
 			dispose();
 		}
@@ -148,11 +147,9 @@ public class ExamScreen extends JFrame {
 	  
 	  panel_My_Exams.add(btnMyExams);
 			
-	  LocalDate today = LocalDate.of(2022, 12, 6);
-		
 	  SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");
 			
-	  Instant instant = Instant.from(today.atStartOfDay(ZoneId.of("GMT-3")));
+	  Instant instant = Instant.from(MainWindow.today.atStartOfDay(ZoneId.of("GMT-3")));
 				 
 	  String format = formatFecha.format(Date.from(instant)); 
 			

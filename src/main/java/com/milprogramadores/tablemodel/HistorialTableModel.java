@@ -9,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Historial;
+import com.milprogramadores.model.Usuario;
 
 public class HistorialTableModel extends AbstractTableModel {
 
@@ -16,17 +17,32 @@ public class HistorialTableModel extends AbstractTableModel {
 	public static final int OBJECT_COL = -1;
 	private DAOManager dao = new DAOManager();
     private List<Historial> examenes = new ArrayList<Historial>();
+    private LocalDate today;
+    
 
     public HistorialTableModel() {
     	
     }
 
-    public void updateModel(Alumno alumno, LocalDate fecha) {
-    	examenes = dao.getAlumnoDAO().listarExamenes(alumno, fecha);
+    public void updateModel(Usuario usuario, LocalDate fecha) {
+    	if (!usuario.getRol_admin()) {
+    		Alumno alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
+    		examenes = dao.getAlumnoDAO().listarExamenes(alumno, fecha);
+    	} else {
+    		
+    	}
+    	this.setToday(fecha);
+    	
     }
     
-    public void updateModel(Alumno alumno) {
-    	examenes = dao.getAlumnoDAO().historialExamenes(alumno);
+    public void updateModel(Usuario usuario) {
+    	if (!usuario.getRol_admin()) {
+    		Alumno alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
+    		examenes = dao.getAlumnoDAO().historialExamenes(alumno);
+    	} else {
+    		
+    	}
+    	
     }
     
 
@@ -76,5 +92,13 @@ public class HistorialTableModel extends AbstractTableModel {
                 return "";
         }
     }
+
+	public LocalDate getToday() {
+		return today;
+	}
+
+	public void setToday(LocalDate today) {
+		this.today = today;
+	}
 	
 }

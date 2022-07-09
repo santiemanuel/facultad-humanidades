@@ -1,20 +1,13 @@
 package com.milprogramadores.ui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Random;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
-import com.milprogramadores.model.Historial;
+import com.milprogramadores.model.Usuario;
 import com.milprogramadores.tablemodel.HistorialTableModel;
 
 public class HistoryScreen extends JFrame {
@@ -36,22 +29,12 @@ public class HistoryScreen extends JFrame {
 	private HistorialTableModel tablemodel;
 	private JPanel contentPane;
 	private DAOManager dao = new DAOManager();
-	private LocalDate today;
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HistoryScreen frame = new HistoryScreen(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Alumno alumno = new Alumno();
 
-	public HistoryScreen(Alumno alumno) {
+	public HistoryScreen(Usuario usuario) {
+		if (!usuario.getRol_admin()) {
+			alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
+		}
 		setTitle("Mis Exámenes");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 520, 400);
@@ -64,8 +47,11 @@ public class HistoryScreen extends JFrame {
 		contentPane.add(panel_Top, BorderLayout.NORTH);
 		panel_Top.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblName = new JLabel("Alumno: ");
-		//lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+		JLabel lblName = new JLabel("");
+		if (!usuario.getRol_admin())
+			lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+		else
+			lblName.setText("Usuario Administrador");
 		panel_Top.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");
@@ -82,11 +68,10 @@ public class HistoryScreen extends JFrame {
 				
 		JPanel panel_Flow_Career = new JPanel();
 		panel_Oper_Career.add(panel_Flow_Career, BorderLayout.WEST);
-		today = LocalDate.of(2022, 7, 10);
-			
+	
 		SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");
 				
-		Instant instant = Instant.from(today.atStartOfDay(ZoneId.of("GMT-3")));
+		Instant instant = Instant.from(MainWindow.today.atStartOfDay(ZoneId.of("GMT-3")));
 					 
 		String format = formatFecha.format(Date.from(instant)); 
 				
@@ -102,7 +87,7 @@ public class HistoryScreen extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		tablemodel = new HistorialTableModel();
-		tablemodel.updateModel(alumno);
+		tablemodel.updateModel(usuario);
 		table.setModel(tablemodel);
 			
 		panel_Selector_Table.add(scrollPane, BorderLayout.CENTER);

@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -37,7 +36,7 @@ public class CareerScreen extends JFrame {
 	JTable table;
 	CarreraTableModel tablemodel;
 
-	public CareerScreen(Usuario usuario) {
+	public CareerScreen(final Usuario usuario) {
 		if (!usuario.getRol_admin())
 			alumno = dao.getAlumnoDAO().obtenerAlumnoUsuario(usuario.getId_usuario());
 		setTitle("Carreras");
@@ -52,8 +51,11 @@ public class CareerScreen extends JFrame {
 		contentPane.add(panel_Top, BorderLayout.NORTH);
 		panel_Top.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblName = new JLabel("Alumno: ");
-		lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+		JLabel lblName = new JLabel("");
+		if (!usuario.getRol_admin())
+			lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+		else
+			lblName.setText("Usuario Administrador");
 		panel_Top.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");
@@ -77,14 +79,12 @@ public class CareerScreen extends JFrame {
 		if ((usuario.getRol_admin())) {
 			btnAddCareer.setText("Crear Nueva Carrera");
 		}
-			
 		
 		btnAddCareer.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				
 				if ((usuario.getRol_admin())) {
-					btnAddCareer.setText("Crear Nueva Carrera");
 					InsertCareer dialog = new InsertCareer();
 					dialog.setVisible(true);
 					return;
@@ -101,8 +101,7 @@ public class CareerScreen extends JFrame {
 		btnDetCareer.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
-				
+					
 				JPanel panel = new JPanel();
 				int fila = table.getSelectedRow();
 				
@@ -110,16 +109,13 @@ public class CareerScreen extends JFrame {
 					JOptionPane.showMessageDialog(panel, "Debe seleccionar una carrera", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				};
-				dispose();
 				
 				Carrera carrera = (Carrera) tablemodel.getValueAt(fila, CarreraTableModel.OBJECT_COL);
-				
-				System.out.println(carrera.getNombre());
-				
-				SubjectScreen screen = new SubjectScreen(alumno, carrera);
+						
+				SubjectScreen screen = new SubjectScreen(usuario, carrera);
+				dispose();
 				screen.setVisible(true);
 			}
-			
 		});
 		
 		JButton btnMain = new JButton("Inicio");
@@ -131,13 +127,9 @@ public class CareerScreen extends JFrame {
 				dispose();
 			}
 		});
-		
-		LocalDate today = LocalDate.of(2022, 12, 6);
-		
-		SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");
-		
-		Instant instant = Instant.from(today.atStartOfDay(ZoneId.of("GMT-3")));
-			 
+			
+		SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");	
+		Instant instant = Instant.from(MainWindow.today.atStartOfDay(ZoneId.of("GMT-3")));	 
 		String format = formatFecha.format(Date.from(instant)); 
 		
 		lblDate.setText("Fecha: " + format);

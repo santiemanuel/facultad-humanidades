@@ -72,6 +72,46 @@ public class CarreraDAO {
 		return carreras;
 	}
 	
+	public void insertarMxc(Materia materia, Carrera carrera) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.INSERT_MXC);
+			pstmt.setInt(1, materia.getMateria_id());
+			pstmt.setInt(2, carrera.getCarrera_id());
+			pstmt.execute();
+			
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Boolean existeMxc(Materia materia, Carrera carrera) {
+		DbConnection conn = new DbConnection();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.GET_ONE_CARRERA);
+			pstmt.setString(1, materia.getNombre());
+			pstmt.setString(2, carrera.getNombre());
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next()) {
+				return true;
+			}
+			
+			rs.close();
+			pstmt.close();
+			conn.disconnect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public ArrayList<Materia> materiasDeCarrera(Carrera carrera){
 		ArrayList<Materia> materias = new ArrayList<Materia>();
 		
