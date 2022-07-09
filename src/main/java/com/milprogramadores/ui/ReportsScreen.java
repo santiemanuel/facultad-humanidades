@@ -117,6 +117,17 @@ public class ReportsScreen extends JFrame {
 		JButton btnCertRegular = new JButton("Certificado Alumno Regular");
 		panel_1.add(btnCertRegular, "7, 20");
 		
+		btnCertRegular.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				CertInfoToCreate screen = new CertInfoToCreate(alumno);
+				screen.setVisible(true);
+			}
+			
+		});
+		
 		JButton btnExams = new JButton("Generar Estado Curricular");
 		panel_1.add(btnExams, "7, 24");
 		
