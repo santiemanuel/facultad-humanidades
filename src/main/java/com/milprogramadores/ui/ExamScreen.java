@@ -61,42 +61,42 @@ public class ExamScreen extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 			
 		JPanel panel_Top = new JPanel();
-	  contentPane.add(panel_Top, BorderLayout.NORTH);
-	  panel_Top.setLayout(new BorderLayout(0, 0));
+		contentPane.add(panel_Top, BorderLayout.NORTH);
+		panel_Top.setLayout(new BorderLayout(0, 0));
 			
-	  JLabel lblName = new JLabel("Alumno: ");
-	  if (!usuario.getRol_admin())
-		  lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
-	  else
-		  lblName.setText("Usuario Administrador");
-	  panel_Top.add(lblName, BorderLayout.WEST);
+		JLabel lblName = new JLabel("Alumno: ");
+		if (!usuario.getRol_admin())
+			lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+		else
+			lblName.setText("Usuario Administrador");
+		panel_Top.add(lblName, BorderLayout.WEST);
 			
-	  JLabel lblDate = new JLabel("Fecha:");
-	  lblDate.setVerticalAlignment(SwingConstants.BOTTOM);
-	  panel_Top.add(lblDate, BorderLayout.EAST);
+		JLabel lblDate = new JLabel("Fecha:");
+		lblDate.setVerticalAlignment(SwingConstants.BOTTOM);
+		panel_Top.add(lblDate, BorderLayout.EAST);
 			
-	  JPanel panel_Bottom = new JPanel();
-	  contentPane.add(panel_Bottom, BorderLayout.SOUTH);
-	  panel_Bottom.setLayout(new BorderLayout(0, 0));
+		JPanel panel_Bottom = new JPanel();
+		contentPane.add(panel_Bottom, BorderLayout.SOUTH);
+		panel_Bottom.setLayout(new BorderLayout(0, 0));
 			
-	  JPanel panel_Oper_Career = new JPanel();
-	  panel_Bottom.add(panel_Oper_Career, BorderLayout.WEST);
-	  panel_Oper_Career.setLayout(new BorderLayout(0, 0));
+		JPanel panel_Oper_Career = new JPanel();
+		panel_Bottom.add(panel_Oper_Career, BorderLayout.WEST);
+		panel_Oper_Career.setLayout(new BorderLayout(0, 0));
 			
-	  JPanel panel_Flow_Register = new JPanel();
-	  panel_Oper_Career.add(panel_Flow_Register, BorderLayout.WEST);
+		JPanel panel_Flow_Register = new JPanel();
+		panel_Oper_Career.add(panel_Flow_Register, BorderLayout.WEST);
 			
-	  JButton btnAddExam = new JButton("Inscribirse");
+		JButton btnAddExam = new JButton("Inscribirse");
 	  
-	  if (alumno == null) {
-		  btnAddExam.setText("Crear Nueva Mesa");
-	  }
+		if (usuario.getRol_admin()) {
+			btnAddExam.setText("Crear Nueva Mesa");
+		}
 	  
-	  btnAddExam.addActionListener(new ActionListener() {
+		btnAddExam.addActionListener(new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+					
 			if (usuario.getRol_admin()) {
 				CreateExamDialog dialog = new CreateExamDialog();
 				dialog.setVisible(true);
@@ -124,17 +124,18 @@ public class ExamScreen extends JFrame {
 				JOptionPane.showMessageDialog(panel, "Ya estás inscripto a esa mesa de examen", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	  });
-	  panel_Flow_Register.add(btnAddExam);
+		});
+		panel_Flow_Register.add(btnAddExam);
 	  
-	  JPanel panel_My_Exams = new JPanel();
-	  panel_Bottom.add(panel_My_Exams, BorderLayout.EAST);
+		JPanel panel_My_Exams = new JPanel();
+		panel_Bottom.add(panel_My_Exams, BorderLayout.EAST);
 	  
-	  JButton btnMyExams = new JButton("Mis Exámenes");
+		JButton btnMyExams = new JButton("Mis Exámenes");
 	  
-	  if (alumno == null) btnMyExams.setVisible(false);
+		if (usuario.getRol_admin())
+			btnMyExams.setVisible(false);
 	  
-	  btnMyExams.addActionListener(new ActionListener() {
+		btnMyExams.addActionListener(new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -142,68 +143,63 @@ public class ExamScreen extends JFrame {
 			screen.setVisible(true);
 			dispose();
 		}
-		  
-	  });
+		});
 	  
-	  panel_My_Exams.add(btnMyExams);
+		panel_My_Exams.add(btnMyExams);
 			
-	  SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");
+		SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");
 			
-	  Instant instant = Instant.from(MainWindow.today.atStartOfDay(ZoneId.of("GMT-3")));
+		Instant instant = Instant.from(MainWindow.today.atStartOfDay(ZoneId.of("GMT-3")));
 				 
-	  String format = formatFecha.format(Date.from(instant)); 
+		String format = formatFecha.format(Date.from(instant)); 
 			
-	  lblDate.setText("Fecha: " + format);
+		lblDate.setText("Fecha: " + format);
 	  
-	  JPanel panel_Selector_Table = new JPanel();
-	  contentPane.add(panel_Selector_Table, BorderLayout.CENTER);
-	  panel_Selector_Table.setLayout(new BorderLayout(0, 0));
+		JPanel panel_Selector_Table = new JPanel();
+		contentPane.add(panel_Selector_Table, BorderLayout.CENTER);
+		panel_Selector_Table.setLayout(new BorderLayout(0, 0));
 	  
-	  table = new JTable();
+		table = new JTable();
 	 
-	  JPanel panel_Label_Selector = new JPanel();
-	  panel_Selector_Table.add(panel_Label_Selector, BorderLayout.NORTH);
+		JPanel panel_Label_Selector = new JPanel();
+		panel_Selector_Table.add(panel_Label_Selector, BorderLayout.NORTH);
 	  
-	  JLabel lblSelectCareer = new JLabel("Seleccione su carrera:");
-	  panel_Label_Selector.add(lblSelectCareer);
+		JLabel lblSelectCareer = new JLabel("Carrera:");
+		panel_Label_Selector.add(lblSelectCareer);
 	  
-	  JComboBox<String> comboBox = new JComboBox<String>();
-	  if (!usuario.getRol_admin()) {
-		  carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
-		  for (Carrera c: carreras) {
+		JComboBox<String> comboBox = new JComboBox<String>();
+		if (!usuario.getRol_admin()) {
+			carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
+			for (Carrera c: carreras) {
 				combomodel.addElement(c.getNombre());
-		  };
-	  }
-
-	  comboBox.addItemListener(new ItemListener() {
-
-		public void itemStateChanged(ItemEvent e) {
-			if (e.getStateChange() == ItemEvent.SELECTED) {
-				@SuppressWarnings("unchecked")
-				Integer index = ((JComboBox<String>) e.getSource()).getSelectedIndex();
-				if (!usuario.getRol_admin()) {
-					tablemodel = new AlumnoExamenTableModel();
-					tablemodel.updateModel(alumno, carreras.get(index));
-					table.setModel(tablemodel);
-				}
-				
-			}
+			};
 		}
-	  });
-	  
-	  JScrollPane scrollPane = new JScrollPane();
-	  scrollPane.setViewportView(table);
 		
-	  panel_Selector_Table.add(scrollPane, BorderLayout.CENTER);
-	  
-	  if (!usuario.getRol_admin()) {
-		  comboBox.setModel(combomodel);
-		  comboBox.setSelectedIndex(0); 
-	  }
-	  
-	  panel_Label_Selector.add(comboBox);
-			
-	  setLocationRelativeTo(null);
-	}
+		comboBox.setModel(combomodel);
+		comboBox.setRenderer(new PromptComboBoxRenderer("Seleccione carrera"));
+		comboBox.setSelectedIndex(-1);
+		comboBox.addItemListener(new ItemListener() {
 
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					@SuppressWarnings("unchecked")
+					Integer index = ((JComboBox<String>) e.getSource()).getSelectedIndex();
+					if (!usuario.getRol_admin()) {
+						tablemodel = new AlumnoExamenTableModel();
+						tablemodel.updateModel(alumno, carreras.get(index));
+						table.setModel(tablemodel);
+					}
+				}
+			}
+		});
+	  
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(table);
+		
+		panel_Selector_Table.add(scrollPane, BorderLayout.CENTER);
+
+		panel_Label_Selector.add(comboBox);
+			
+		setLocationRelativeTo(null);
+	}
 }

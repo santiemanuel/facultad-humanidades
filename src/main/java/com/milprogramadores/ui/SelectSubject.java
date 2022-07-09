@@ -79,7 +79,9 @@ public class SelectSubject extends JDialog {
 			combomodel.addElement(m.getNombre());
 		}
 		
-		comboBox.setModel(combomodel);	
+		comboBox.setModel(combomodel);
+		comboBox.setRenderer(new PromptComboBoxRenderer("Seleccione materia"));
+		comboBox.setSelectedIndex(-1);
 		
 		contentPanel.add(comboBox, "2, 8, fill, default");
 		

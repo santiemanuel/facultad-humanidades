@@ -19,9 +19,6 @@ import net.miginfocom.swing.MigLayout;
 
 public class WelcomeScreen extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	public static DAOManager dao;

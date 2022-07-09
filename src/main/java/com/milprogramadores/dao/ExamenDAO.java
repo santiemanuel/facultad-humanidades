@@ -3,6 +3,7 @@ package com.milprogramadores.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import com.milprogramadores.model.Materia;
 import com.milprogramadores.model.MesaExamen;
 import com.milprogramadores.sql.DbConnection;
 import com.milprogramadores.sql.SqlQueries;
+import com.milprogramadores.ui.MainWindow;
 
 public class ExamenDAO {
 	
@@ -48,6 +50,9 @@ public class ExamenDAO {
 			ResultSet rs = pstmt.getResultSet();
 			
 			while(rs.next()) {
+				LocalDate fechaExamen = rs.getDate("fecha").toLocalDate();
+				if (MainWindow.today.compareTo(fechaExamen) > 0)
+					continue;
 				AlumnoExamen examen = new AlumnoExamen();
 				examen.setMesa_examen_id(rs.getInt("mesa_examen_id"));
 				examen.setMateria_nombre(rs.getString("materia_nombre"));

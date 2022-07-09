@@ -65,7 +65,9 @@ public class SelectCareer extends JDialog {
 			combomodel.addElement(c.getNombre());
 		}
 		
-		comboBox.setModel(combomodel);	
+		comboBox.setModel(combomodel);
+		comboBox.setRenderer(new PromptComboBoxRenderer("Seleccione carrera"));
+		comboBox.setSelectedIndex(-1);
 		
 		contentPanel.add(comboBox, "2, 8, fill, default");
 
