@@ -25,6 +25,10 @@ public class HistorialTableModel extends AbstractTableModel {
     	examenes = dao.getAlumnoDAO().listarExamenes(alumno, fecha);
     }
     
+    public void updateModel(Alumno alumno) {
+    	examenes = dao.getAlumnoDAO().historialExamenes(alumno);
+    }
+    
 
     public String getColumnName(int columnIndex){
         switch(columnIndex){
@@ -62,8 +66,11 @@ public class HistorialTableModel extends AbstractTableModel {
             	return seleccion.getMateria_nombre();
             case 3:
             	return seleccion.getFecha();
-            case 4:
+            case 4: {
+            	if (seleccion.getNota() == 0) return "Ausente";
             	return seleccion.getNota();
+            }
+            	
             case OBJECT_COL : return seleccion;
             default:
                 return "";

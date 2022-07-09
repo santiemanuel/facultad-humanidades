@@ -46,6 +46,8 @@ public class MainWindow extends JFrame {
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblName = new JLabel("Alumno: ");
+		
+		lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
 		panel.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");
@@ -119,7 +121,7 @@ public class MainWindow extends JFrame {
 		btnExams.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				ExamScreen screen = new ExamScreen(alumno);
+				ExamScreen screen = new ExamScreen(alumno, null);
 				screen.setVisible(true);
 			}
 			

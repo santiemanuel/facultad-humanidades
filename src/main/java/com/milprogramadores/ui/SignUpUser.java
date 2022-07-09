@@ -151,6 +151,18 @@ public class SignUpUser extends JDialog {
 		getRootPane().setDefaultButton(okButton);
 
 		JButton cancelButton = new JButton("Cancelar");
+		cancelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				WelcomeScreen screen = new WelcomeScreen();
+				dispose();
+				screen.setVisible(true);
+			}
+			
+		});
+		
+		
 		cancelButton.setActionCommand("Cancel");
 		buttonPane.add(cancelButton);
 

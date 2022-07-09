@@ -8,13 +8,10 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,11 +23,10 @@ import javax.swing.border.EmptyBorder;
 
 import com.milprogramadores.dao.DAOManager;
 import com.milprogramadores.model.Alumno;
-import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Historial;
 import com.milprogramadores.tablemodel.HistorialTableModel;
 
-public class MyExamsScreen extends JFrame {
+public class HistoryScreen extends JFrame {
 
 	/**
 	 * 
@@ -41,11 +37,21 @@ public class MyExamsScreen extends JFrame {
 	private JPanel contentPane;
 	private DAOManager dao = new DAOManager();
 	private LocalDate today;
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					HistoryScreen frame = new HistoryScreen(null);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MyExamsScreen(Alumno alumno) {
+	public HistoryScreen(Alumno alumno) {
 		setTitle("Mis Exámenes");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 520, 400);
@@ -59,7 +65,7 @@ public class MyExamsScreen extends JFrame {
 		panel_Top.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblName = new JLabel("Alumno: ");
-		lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+		//lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
 		panel_Top.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");
@@ -76,50 +82,6 @@ public class MyExamsScreen extends JFrame {
 				
 		JPanel panel_Flow_Career = new JPanel();
 		panel_Oper_Career.add(panel_Flow_Career, BorderLayout.WEST);
-				
-		JButton btnTakeExam = new JButton("Rendir Examen");
-		btnTakeExam.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int fila = table.getSelectedRow();
-				if (fila < 0) {
-					JOptionPane.showMessageDialog(null, "Debe seleccionar un examen a rendir", "Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				};
-				Historial entrada = (Historial) tablemodel.getValueAt(fila, HistorialTableModel.OBJECT_COL);
-				
-				Random rnd = new Random();
-				Integer nota = rnd.nextInt(2, 10);
-				
-				dao.getAlumnoDAO().rendirExamen(alumno, entrada.getExamen_id(), nota);
-				
-				tablemodel = new HistorialTableModel();
-				tablemodel.updateModel(alumno, today);
-				table.setModel(tablemodel);
-			}
-		});
-		panel_Flow_Career.add(btnTakeExam);
-		
-		JButton btnCancelExam = new JButton("Cancelar Examen");
-		panel_Flow_Career.add(btnCancelExam);
-		btnCancelExam.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int fila = table.getSelectedRow();
-				if (fila < 0) {
-					JOptionPane.showMessageDialog(null, "Debe seleccionar un examen a rendir", "Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				};
-				Historial entrada = (Historial) tablemodel.getValueAt(fila, HistorialTableModel.OBJECT_COL);
-				
-				dao.getAlumnoDAO().cancelarExamen(alumno, entrada.getExamen_id());
-				JOptionPane.showMessageDialog(null, "Inscripcion cancelada", "Error", JOptionPane.INFORMATION_MESSAGE);
-				tablemodel = new HistorialTableModel();
-				tablemodel.updateModel(alumno, today);
-				table.setModel(tablemodel);
-			}
-			
-		});	  	
 		today = LocalDate.of(2022, 7, 10);
 			
 		SimpleDateFormat formatFecha = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy");
@@ -140,11 +102,12 @@ public class MyExamsScreen extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		tablemodel = new HistorialTableModel();
-		tablemodel.updateModel(alumno, today);
+		tablemodel.updateModel(alumno);
 		table.setModel(tablemodel);
 			
 		panel_Selector_Table.add(scrollPane, BorderLayout.CENTER);
 				
 		setLocationRelativeTo(null);
 	}
+
 }

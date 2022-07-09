@@ -36,6 +36,17 @@ public class SqlQueries {
 												+ "INNER JOIN materias m "
 												+ "ON mxc.materia_id = m.materia_id "
 												+ "WHERE e.alumno_id = ? and me.fecha >= ? and e.nota = 0";
+		public static String HISTORIAL_EXAMENES = "SELECT e.examen_id, c.carrera_nombre, m.materia_nombre, me.fecha, e.nota "
+												+ "FROM examenes e "
+												+ "INNER JOIN mesas_examen me "
+												+ "ON e.mesa_examen_id = me.mesa_examen_id "
+												+ "INNER JOIN materiasxcarreras mxc "
+												+ "ON mxc.mxc_id = me.mxc_id "
+												+ "INNER JOIN carreras c "
+												+ "ON mxc.carrera_id = c.carrera_id "
+												+ "INNER JOIN materias m "
+												+ "ON mxc.materia_id = m.materia_id "
+												+ "WHERE e.alumno_id = ?";
 	/*
 	 * Consultas DAO Carrera
 	 */
@@ -65,7 +76,7 @@ public class SqlQueries {
 	
 		public static String USUARIO_ID = "SELECT id_usuario FROM usuarios WHERE usuarios.email_usuario = ?";
 		public static String INSERT_CREDENCIAL = "INSERT INTO credenciales VALUES (default, ?, ?, ( "+ USUARIO_ID +" ))";
-		public static String DELETE_CREDENCIAL = "DELETE FROM credenciales WHERE id_usuario = ?";
+		public static String DELETE_CREDENCIAL = "DELETE FROM credenciales WHERE id_credencial = ?";
 		public static String UPDATE_CREDENCIAL = "UPDATE credenciales SET salt_and_hash = ?, pass_algo = ? WHERE id_usuario = ?";
 		public static String GET_CREDENCIAL_USUARIO = "SELECT * FROM credenciales WHERE id_usuario = ?";
 		public static String GET_ONE_CREDENCIAL = "SELECT * FROM credenciales WHERE id_credencial = ?";

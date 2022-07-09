@@ -48,6 +48,7 @@ public class CareerScreen extends JFrame {
 		panel_Top.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblName = new JLabel("Alumno: ");
+		lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
 		panel_Top.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");

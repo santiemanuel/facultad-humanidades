@@ -105,7 +105,19 @@ public class MainWindowAdmin extends JFrame {
 		JButton btnReports = new JButton("Reportes");
 		panel_1.add(btnReports, "8, 12");
 		
-		JButton btnExams = new JButton("Ex\u00E1menes");
+		JButton btnExams = new JButton("Exámenes");
+		
+		btnExams.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ExamScreen screen = new ExamScreen(null, usuario);
+				screen.setVisible(true);
+			}
+			
+		});
+		
+		
 		panel_1.add(btnExams, "12, 12");
 		
 		LocalDate today = LocalDate.of(2022, 12, 6);

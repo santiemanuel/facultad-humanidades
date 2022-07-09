@@ -44,6 +44,7 @@ public class ReportsScreen extends JFrame {
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblName = new JLabel("Alumno: ");
+		lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
 		panel.add(lblName, BorderLayout.WEST);
 		
 		JLabel lblDate = new JLabel("Fecha:");
@@ -99,7 +100,9 @@ public class ReportsScreen extends JFrame {
 		btnHistory.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-
+				HistoryScreen screen = new HistoryScreen(alumno);
+				dispose();
+				screen.setVisible(true);
 			}
 		});
 		

@@ -135,7 +135,7 @@ public class SignUpStudent extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				Credencial credencial = dao.getCredencialDAO().obtenerCredencial(usuario.getId_usuario());
+				Credencial credencial = dao.getCredencialDAO().credencialUsuario(usuario.getId_usuario());
 				
 				dao.getCredencialDAO().eliminarCredencial(credencial.getId_credencial());
 				dao.getUsuarioDAO().eliminarUsuario(usuario.getId_usuario());

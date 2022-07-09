@@ -60,6 +60,32 @@ public class AlumnoDAO {
 		return -1;
 	}
 	
+	public ArrayList<Historial> historialExamenes(Alumno alumno) {
+		DbConnection conn = new DbConnection();
+		ArrayList<Historial> examenes = new ArrayList<Historial>();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.HISTORIAL_EXAMENES);
+			pstmt.setInt(1, alumno.getAlumno_id());
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			while(rs.next()) {
+				Historial entrada = new Historial();
+				entrada.setExamen_id(rs.getInt("examen_id"));
+				entrada.setCarrera_nombre(rs.getString("carrera_nombre"));
+				entrada.setMateria_nombre(rs.getString("materia_nombre"));
+				entrada.setFecha(rs.getDate("fecha").toLocalDate());
+				entrada.setNota(rs.getByte("nota"));
+				examenes.add(entrada);
+			}
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		}
+	
+		return examenes;
+	}
+	
 	public ArrayList<Historial> listarExamenes(Alumno alumno, LocalDate fecha) {
 		DbConnection conn = new DbConnection();
 		ArrayList<Historial> examenes = new ArrayList<Historial>();

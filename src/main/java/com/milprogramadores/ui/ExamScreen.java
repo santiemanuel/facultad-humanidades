@@ -28,6 +28,7 @@ import com.milprogramadores.model.AlumnoExamen;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Examen;
 import com.milprogramadores.model.MesaExamen;
+import com.milprogramadores.model.Usuario;
 import com.milprogramadores.tablemodel.AlumnoExamenTableModel;
 
 import javax.swing.JComboBox;
@@ -43,8 +44,10 @@ public class ExamScreen extends JFrame {
 	private JTable table;
 	private AlumnoExamenTableModel tablemodel;
 	private DAOManager dao = new DAOManager();
-
-	public ExamScreen(final Alumno alumno) {
+	ArrayList<Carrera> carreras = new ArrayList<Carrera>();
+	DefaultComboBoxModel<String> combomodel = new DefaultComboBoxModel<String>();
+	
+	public ExamScreen(final Alumno alumno, final Usuario usuario) {
 		
 	  setTitle("Inscripción a Examen");
 	  setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -59,6 +62,10 @@ public class ExamScreen extends JFrame {
 	  panel_Top.setLayout(new BorderLayout(0, 0));
 			
 	  JLabel lblName = new JLabel("Alumno: ");
+	  if (usuario == null)
+		  lblName.setText("Alumno: " + alumno.getAlumno_apellido() + ", " + alumno.getAlumno_nombre());
+	  else
+		  lblName.setText("Usuario Administrador");
 	  panel_Top.add(lblName, BorderLayout.WEST);
 			
 	  JLabel lblDate = new JLabel("Fecha:");
@@ -78,10 +85,21 @@ public class ExamScreen extends JFrame {
 			
 	  JButton btnAddExam = new JButton("Inscribirse");
 	  
+	  if (alumno == null) {
+		  btnAddExam.setText("Crear Nueva Mesa");
+	  }
+	  
 	  btnAddExam.addActionListener(new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			if (alumno == null) {
+				CreateExamDialog dialog = new CreateExamDialog();
+				dialog.setVisible(true);
+				return;
+			}
+		
 			JPanel panel = new JPanel();
 			int fila = table.getSelectedRow();
 			
@@ -110,6 +128,8 @@ public class ExamScreen extends JFrame {
 	  panel_Bottom.add(panel_My_Exams, BorderLayout.EAST);
 	  
 	  JButton btnMyExams = new JButton("Mis Exámenes");
+	  
+	  if (alumno == null) btnMyExams.setVisible(false);
 	  
 	  btnMyExams.addActionListener(new ActionListener() {
 
@@ -147,12 +167,12 @@ public class ExamScreen extends JFrame {
 	  panel_Label_Selector.add(lblSelectCareer);
 	  
 	  JComboBox<String> comboBox = new JComboBox<String>();
-	  ArrayList<Carrera> carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
-	  
-	  DefaultComboBoxModel<String> combomodel = new DefaultComboBoxModel<String>();
-	  for (Carrera c: carreras) {
-			combomodel.addElement(c.getNombre());
-	  };
+	  if (usuario == null) {
+		  ArrayList<Carrera> carreras = dao.getCarreraDAO().carrerasAlumno(alumno.getAlumno_id());
+		  for (Carrera c: carreras) {
+				combomodel.addElement(c.getNombre());
+		  };
+	  }
 
 	  comboBox.addItemListener(new ItemListener() {
 
@@ -160,9 +180,12 @@ public class ExamScreen extends JFrame {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
 				@SuppressWarnings("unchecked")
 				Integer index = ((JComboBox<String>) e.getSource()).getSelectedIndex();
-				tablemodel = new AlumnoExamenTableModel();
-				tablemodel.updateModel(alumno, carreras.get(index));
-				table.setModel(tablemodel);
+				if (usuario == null) {
+					tablemodel = new AlumnoExamenTableModel();
+					tablemodel.updateModel(alumno, carreras.get(index));
+					table.setModel(tablemodel);
+				}
+				
 			}
 		}
 	  });
@@ -172,8 +195,10 @@ public class ExamScreen extends JFrame {
 		
 	  panel_Selector_Table.add(scrollPane, BorderLayout.CENTER);
 	  
-	  comboBox.setModel(combomodel);
-	  comboBox.setSelectedIndex(0);
+	  if (usuario == null) {
+		  comboBox.setModel(combomodel);
+		  comboBox.setSelectedIndex(0); 
+	  }
 	  
 	  panel_Label_Selector.add(comboBox);
 			
