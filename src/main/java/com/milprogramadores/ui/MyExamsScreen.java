@@ -87,8 +87,10 @@ public class MyExamsScreen extends JFrame {
 				};
 				Historial entrada = (Historial) tablemodel.getValueAt(fila, HistorialTableModel.OBJECT_COL);
 				
-				Random rnd = new java.util.Random();
-				Integer nota = rnd.nextInt(2, 10);
+				java.util.Random rnd = new java.util.Random();
+				int min = 2;
+				int max = 10;
+				Integer nota = rnd.nextInt(max - min + 1) + min;
 				
 				dao.getAlumnoDAO().rendirExamen(alumno, entrada.getExamen_id(), nota);
 				
