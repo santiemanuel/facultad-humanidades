@@ -78,7 +78,8 @@ public class PdfCreatorHistorial {
 				table.addCell(new Cell().setTextAlignment(TextAlignment.LEFT).add(new Paragraph(h.getCarrera_nombre())).setFontSize(8));
 				table.addCell(new Cell().setTextAlignment(TextAlignment.LEFT).add(new Paragraph(h.getMateria_nombre())).setFontSize(8));
 				table.addCell(new Cell().setTextAlignment(TextAlignment.LEFT).add(new Paragraph(h.getFecha().toString())).setFontSize(8));
-				table.addCell(new Cell().setTextAlignment(TextAlignment.LEFT).add(new Paragraph(h.getNota().toString())).setFontSize(8));
+				String nota = (h.getNota() == 0) ? "Ausente" : h.getNota().toString();
+				table.addCell(new Cell().setTextAlignment(TextAlignment.LEFT).add(new Paragraph(nota)).setFontSize(8));
 			}
 			
 			doc.add(p1);
