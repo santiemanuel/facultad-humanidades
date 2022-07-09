@@ -7,8 +7,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.itextpdf.layout.element.List;
-
 public class InformacionCertificado {
 	
 	private String nombre;
