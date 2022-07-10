@@ -47,6 +47,20 @@ public class SqlQueries {
 												+ "INNER JOIN materias m "
 												+ "ON mxc.materia_id = m.materia_id "
 												+ "WHERE e.alumno_id = ?";
+		public static String HISTORIAL_ADMIN = "SELECT e.examen_id, a.alumno_apellido, a.alumno_nombre, c.carrera_nombre, m.materia_nombre, me.fecha, e.nota "
+											+ "FROM examenes e "
+											+ "INNER JOIN mesas_examen me "
+											+ "ON e.mesa_examen_id = me.mesa_examen_id "
+											+ "INNER JOIN materiasxcarreras mxc "
+											+ "ON mxc.mxc_id = me.mxc_id "
+											+ "INNER JOIN carreras c "
+											+ "ON mxc.carrera_id = c.carrera_id "
+											+ "INNER JOIN materias m "
+											+ "ON mxc.materia_id = m.materia_id "
+											+ "INNER JOIN alumnosxcarreras axc " 
+											+ "ON mxc.carrera_id = axc.carrera_id " 
+											+ "INNER JOIN alumnos a " 
+											+ "ON axc.alumno_id = a.alumno_id";
 	/*
 	 * Consultas DAO Carrera
 	 */

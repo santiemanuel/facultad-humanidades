@@ -10,6 +10,7 @@ import com.milprogramadores.model.Alumno;
 import com.milprogramadores.model.Carrera;
 import com.milprogramadores.model.Examen;
 import com.milprogramadores.model.Historial;
+import com.milprogramadores.model.HistorialAdmin;
 import com.milprogramadores.model.Materia;
 import com.milprogramadores.model.MesaExamen;
 import com.milprogramadores.sql.DbConnection;
@@ -87,6 +88,33 @@ public class AlumnoDAO {
 			e.printStackTrace();
 		}
 	
+		return examenes;
+	}
+	
+	public ArrayList<HistorialAdmin> historialAdmin(){
+		DbConnection conn = new DbConnection();
+		ArrayList<HistorialAdmin> examenes = new ArrayList<HistorialAdmin>();
+		
+		try {
+			PreparedStatement pstmt = conn.getConnection().prepareStatement(SqlQueries.HISTORIAL_ADMIN);
+			pstmt.execute();
+			ResultSet rs = pstmt.getResultSet();
+			
+			while(rs.next()) {
+				HistorialAdmin entrada = new HistorialAdmin();
+				entrada.setExamen_id(rs.getInt("examen_id"));
+				entrada.setAlumno_apellido(rs.getString("alumno_apellido"));
+				entrada.setAlumno_nombre(rs.getString("alumno_nombre"));
+				entrada.setCarrera_nombre(rs.getString("carrera_nombre"));
+				entrada.setMateria_nombre(rs.getString("materia_nombre"));
+				entrada.setFecha(rs.getDate("fecha").toLocalDate());
+				entrada.setNota(rs.getByte("nota"));
+				examenes.add(entrada);
+			}
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		return examenes;
 	}
 	

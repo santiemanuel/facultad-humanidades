@@ -117,10 +117,13 @@ public class MainWindow extends JFrame {
 		
 		btnReports.addActionListener(new ActionListener() {
 
-			
 			public void actionPerformed(ActionEvent e) {
 				if (!usuario.getRol_admin()) {
 					ReportsScreen screen = new ReportsScreen(usuario);
+					screen.setVisible(true);
+				} else {
+					HistoryScreen screen = new HistoryScreen(usuario);
+					dispose();
 					screen.setVisible(true);
 				}
 			}

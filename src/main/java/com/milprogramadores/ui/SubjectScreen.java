@@ -110,6 +110,13 @@ public class SubjectScreen extends JFrame {
 		});
 			
 		JButton btnMain = new JButton("Inicio");
+		btnMain.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}	
+		});
 		panel_Bottom.add(btnMain, BorderLayout.EAST);
 			
 

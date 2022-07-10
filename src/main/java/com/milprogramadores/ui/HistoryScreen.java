@@ -84,7 +84,7 @@ public class HistoryScreen extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
 		
-		tablemodel = new HistorialTableModel();
+		tablemodel = new HistorialTableModel(usuario);
 		tablemodel.updateModel(usuario);
 		table.setModel(tablemodel);
 			

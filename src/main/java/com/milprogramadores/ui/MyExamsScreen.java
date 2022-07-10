@@ -94,7 +94,7 @@ public class MyExamsScreen extends JFrame {
 				
 				dao.getAlumnoDAO().rendirExamen(alumno, entrada.getExamen_id(), nota);
 				
-				tablemodel = new HistorialTableModel();
+				tablemodel = new HistorialTableModel(usuario);
 				tablemodel.updateModel(usuario, MainWindow.today);
 				table.setModel(tablemodel);
 			}
@@ -116,7 +116,7 @@ public class MyExamsScreen extends JFrame {
 				
 				dao.getAlumnoDAO().cancelarExamen(alumno, entrada.getExamen_id());
 				JOptionPane.showMessageDialog(null, "Inscripcion cancelada", "Error", JOptionPane.INFORMATION_MESSAGE);
-				tablemodel = new HistorialTableModel();
+				tablemodel = new HistorialTableModel(usuario);
 				tablemodel.updateModel(usuario, MainWindow.today);
 				table.setModel(tablemodel);
 			}
@@ -140,7 +140,7 @@ public class MyExamsScreen extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
 		
-		tablemodel = new HistorialTableModel();
+		tablemodel = new HistorialTableModel(usuario);
 		tablemodel.updateModel(usuario, MainWindow.today);
 		table.setModel(tablemodel);
 			
